@@ -14,6 +14,7 @@ class Transaction extends Model
         'amount',
         'sender_account_id',
         'recipient_account_id',
+        'user_id',
     ];
 
     public function senderAccount(): BelongsTo

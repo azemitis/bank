@@ -12,8 +12,15 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->decimal('amount', 10, 2);
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('sender_account_id')->constrained('accounts');
-            $table->foreignId('recipient_account_id')->constrained('accounts');
+            $table->foreignId('sender_account_id')
+                ->nullable()
+                ->constrained('accounts')
+                ->onDelete('set null');
+
+            $table->foreignId('recipient_account_id')
+                ->nullable()
+                ->constrained('accounts')
+                ->onDelete('set null');
             $table->timestamps();
         });
     }

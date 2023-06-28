@@ -1,7 +1,8 @@
 <x-app-layout>
+    <!-- Header -->
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight ml-2">
-            {{ __('Your bank page') }}
+            {{ __('Welcome to the bank!') }}
         </h2>
     </x-slot>
 
@@ -9,17 +10,21 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-indigo-100 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Welcome to Bank!</h3>
-                    <p class="text-gray-600">Here you can see your accounts and money transfers. </p>
+{{--                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Welcome to Bank!</h3>--}}
+{{--                    <p class="text-gray-600">Here you can see all your accounts and money transfers. </p>--}}
 
-                    <div class="mt-8">
+                    <!-- Accounts section -->
+                    <div class="mt-4">
                         <h4 class="text-xl font-semibold text-gray-800 mb-4">Your Bank Accounts</h4>
                         <table class="min-w-full  border border-gray-200">
                             <thead>
                             <tr>
-                                <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2 text-left text-gray-800 font-semibold">Account Number</th>
-                                <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2 text-left text-gray-800 font-semibold">Currency</th>
-                                <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2 text-left text-gray-800 font-semibold">Balance</th>
+                                <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
+                                text-left text-gray-800 font-semibold">Account Number</th>
+                                <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
+                                text-left text-gray-800 font-semibold">Currency</th>
+                                <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
+                                text-left text-gray-800 font-semibold">Balance</th>
                                 <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2"></th>
                             </tr>
                             </thead>
@@ -52,9 +57,11 @@
                         </table>
                     </div>
 
+                    <!-- Open new account -->
                     <div class="mt-8 flex items-center">
                         <a href="{{ route('accounts.create') }}"
-                           class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                           class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2
+                           px-4 rounded-full inline-flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block align-middle -mt-1"
                                  viewBox="0 0 20 20" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -64,22 +71,86 @@
                         </a>
                     </div>
 
+                    <!-- Make Money Transactions section -->
+                    <div class="mt-8">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Transfer Money</h4>
+                        <form action="{{ route('transactions.store') }}" method="POST" class="flex flex-wrap">
+                            @csrf
+                            <div class="mb-4 flex-1 mx-2">
+                                <label for="sender_account" class="block text-gray-700 text-sm font-bold mb-2">
+                                    Sender's Account:</label>
+                                <select name="sender_account" id="sender_account" class="border rounded w-full py-2
+                                px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    @foreach ($accounts as $account)
+                                        <option value="{{ $account->id }}">{{ $account->account_number }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-4 flex-1">
+                                <label for="recipient_account" class="block text-gray-700 text-sm font-bold mb-2">
+                                    Recipient's Account:</label>
+                                <select name="recipient_account" id="recipient_account" class="border rounded w-full
+                                py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    @foreach ($accounts as $account)
+                                        <option value="{{ $account->id }}">{{ $account->account_number }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-4 flex-1 mx-2">
+                                <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
+                                <input type="text" name="amount" id="amount" value="0" class="border rounded w-20 py-2
+                                px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </div>
+                            <div class="flex justify-start flex-1 mt-6">
+                                <div class="flex-shrink-0">
+                                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white
+                                    font-semibold py-2 px-4 rounded-full inline-flex items-center">Transfer</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Previous transactions section -->
                     <div class="mt-8">
                         <h4 class="text-xl font-semibold text-gray-800 mb-4">Your Transactions</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                <tr>
+                                    <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
+                                    text-left text-gray-800 font-semibold">Amount</th>
+                                    <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
+                                    text-left text-gray-800 font-semibold">Sender's Account</th>
+                                    <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
+                                    text-left text-gray-800 font-semibold">Recipient's Account</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($transactions as $transaction)
+                                    <tr class="border-b border-gray-300">
+                                        <td class="border-gray-300 border-r px-4 py-2">
+                                            {{ $transaction->amount }}</td>
+                                        <td class="border-gray-300 border-r px-4 py-2">
+                                            @if ($transaction->senderAccount)
+                                                {{ $transaction->senderAccount->account_number }}
+                                            @endif
+                                        </td>
+                                        <td class="border-gray-300 px-4 py-2">
+                                            @if ($transaction->recipientAccount)
+                                                {{ $transaction->recipientAccount->account_number }}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                        <ul class="space-y-4">
-                            @foreach ($transactions as $transaction)
-                                <li>
-                                    <p>Amount: {{ $transaction->amount }}</p>
-                                    <p>Sender Account: {{ $transaction->senderAccount->account_number }}</p>
-                                    <p>Recipient Account: {{ $transaction->recipientAccount->account_number }}</p>
-                                </li>
-                            @endforeach
-                        </ul>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
+
 </x-app-layout>
