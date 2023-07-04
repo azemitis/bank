@@ -13,30 +13,25 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'numeric',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
 
         $senderAccount = Account::findOrFail($request->input('sender_account'));
         $recipientAccount = Account::findOrFail($request->input('recipient_account'));
         $amount = $request->input('amount');
-
-        if ($senderAccount->balance < $amount) {
-            return redirect()->back()->with('error', 'Insufficient balance for the transfer.');
-        }
-
         $currencyConverter = new CurrencyConverter();
         $convertedAmount = $currencyConverter->convert($senderAccount->currency, $recipientAccount->currency, $amount);
 
-        if ($convertedAmount === null) {
-            return redirect()->back()->with('error', 'Unable to perform currency conversion.');
-        }
+        $validator->after(function ($validator) use ($senderAccount, $amount, $convertedAmount) {
+            if ($senderAccount->balance < $amount) {
+                $validator->errors()->add('amount', 'Insufficient balance for the transfer.');
+            } elseif ($convertedAmount === null || $convertedAmount <= 0) {
+                $validator->errors()->add('amount', 'Please enter a valid amount for the transfer.');
+            }
+        });
 
-        if ($senderAccount->balance < $convertedAmount) {
-            return redirect()->back()->with('error', 'Insufficient balance for the transfer after currency conversion.');
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $senderAccount->balance -= $amount;

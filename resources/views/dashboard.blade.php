@@ -10,8 +10,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-indigo-100 border-b border-gray-200">
-{{--                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Welcome to Bank!</h3>--}}
-{{--                    <p class="text-gray-600">Here you can see all your accounts and money transfers. </p>--}}
+                    {{--                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Welcome to Bank!</h3>--}}
+                    {{--                    <p class="text-gray-600">Here you can see all your accounts and money transfers. </p>--}}
 
                     <!-- Accounts section -->
                     <div class="mt-4">
@@ -20,11 +20,14 @@
                             <thead>
                             <tr>
                                 <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
-                                text-left text-gray-800 font-semibold">Account Number</th>
+                                text-left text-gray-800 font-semibold">Account Number
+                                </th>
                                 <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
-                                text-left text-gray-800 font-semibold">Currency</th>
+                                text-left text-gray-800 font-semibold">Currency
+                                </th>
                                 <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
-                                text-left text-gray-800 font-semibold">Balance</th>
+                                text-left text-gray-800 font-semibold">Balance
+                                </th>
                                 <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2"></th>
                             </tr>
                             </thead>
@@ -74,13 +77,14 @@
                     <!-- Make Money Transactions section -->
                     <div class="mt-8">
                         <h4 class="text-xl font-semibold text-gray-800 mb-4">Transfer Money</h4>
-                        <form action="{{ route('transactions.store') }}" method="POST" class="flex flex-wrap">
+
+                        <form action="{{ route('transactions.store') }}" method="POST" class="flex flex-wrap relative">
                             @csrf
                             <div class="mb-4 flex-1 mx-2">
                                 <label for="sender_account" class="block text-gray-700 text-sm font-bold mb-2">
                                     Sender's Account:</label>
-                                <select name="sender_account" id="sender_account" class="border rounded w-full py-2
-                                px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <select name="sender_account" id="sender_account" class="border rounded w-full py-2 px-3
+            text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}">{{ $account->account_number }}</option>
                                     @endforeach
@@ -89,8 +93,10 @@
                             <div class="mb-4 flex-1">
                                 <label for="recipient_account" class="block text-gray-700 text-sm font-bold mb-2">
                                     Recipient's Account:</label>
-                                <select name="recipient_account" id="recipient_account" class="border rounded w-full
-                                py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <select name="recipient_account" id="recipient_account"
+                                        class="border rounded w-full py-2 px-3
+            text-gray-700 leading-tight focus:outline-none
+            focus:shadow-outline">
                                     @foreach ($accounts as $account)
                                         <option value="{{ $account->id }}">{{ $account->account_number }}</option>
                                     @endforeach
@@ -98,17 +104,35 @@
                             </div>
                             <div class="mb-2 flex-1 mx-1">
                                 <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
-                                <input type="text" name="amount" id="amount" value="0" class="border rounded w-20
-                                px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <input type="text" name="amount" id="amount" value="0" class="border rounded w-20 px-3
+            text-gray-700 leading-tight focus:outline-none
+            focus:shadow-outline">
                             </div>
                             <div class="flex justify-start flex-1 mt-6">
                                 <div class="flex-shrink-0">
                                     <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white
-                                    font-semibold py-2 px-4 rounded-full inline-flex items-center">Transfer</button>
+                                    font-semibold py-2 px-4 rounded-full inline-flex items-center">Transfer
+                                    </button>
                                 </div>
                             </div>
                         </form>
                     </div>
+
+                    @if(session('success'))
+                        <div id="flash-success-message" class="flash-message flash-success ml-2 -mt-2">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div id="flash-error-message" class="flash-message flash-error ml-2 -mt-2">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <!-- Previous transactions section -->
                     <div class="mt-8">
@@ -118,11 +142,14 @@
                                 <thead>
                                 <tr>
                                     <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
-                                    text-left text-gray-800 font-semibold">Amount</th>
+                                    text-left text-gray-800 font-semibold">Amount
+                                    </th>
                                     <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
-                                    text-left text-gray-800 font-semibold">Sender's Account</th>
+                                    text-left text-gray-800 font-semibold">Sender's Account
+                                    </th>
                                     <th class="bg-indigo-200 border-b-2 border-gray-300 px-4 py-2
-                                    text-left text-gray-800 font-semibold">Recipient's Account</th>
+                                    text-left text-gray-800 font-semibold">Recipient's Account
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -152,5 +179,64 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .flash-message {
+            position: absolute;
+            padding: 3px 35px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .flash-success {
+            background-color: #008000;
+            color: #ffffff;
+        }
+
+        .flash-error {
+            background-color: #ff0000;
+            color: #ffffff;
+        }
+
+        .flash-message.show {
+            opacity: 1;
+        }
+
+        @keyframes flash {
+            0% {
+                background-color: inherit;
+            }
+            50% {
+                background-color: #00ff00;
+            }
+            100% {
+                background-color: inherit;
+            }
+        }
+    </style>
+
+    <script>
+        function showFlashMessage(elementId, type) {
+            const flashMessage = document.getElementById(elementId);
+            flashMessage.classList.add('show');
+
+            setTimeout(function () {
+                flashMessage.classList.remove('show');
+            }, 3000);
+        }
+
+        // Show success message
+        const successMessage = document.getElementById('flash-success-message');
+        if (successMessage) {
+            showFlashMessage('flash-success-message', 'flash-success');
+        }
+
+        // Show error message
+        const errorMessage = document.getElementById('flash-error-message');
+        if (errorMessage) {
+            showFlashMessage('flash-error-message', 'flash-error');
+        }
+    </script>
 
 </x-app-layout>

@@ -13,7 +13,7 @@ class CurrencyConverter extends Controller
         $this->fetchConversionRates();
     }
 
-    public function convert(string $originalCurrency, string $recipientCurrency, float $amount): ?float
+    public function convert(string $originalCurrency, string $recipientCurrency, ?float $amount)
     {
         if (isset($this->conversionRates[$originalCurrency])
             && isset($this->conversionRates[$originalCurrency][$recipientCurrency])) {
