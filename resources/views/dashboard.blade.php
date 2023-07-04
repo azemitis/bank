@@ -96,9 +96,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="mb-4 flex-1 mx-2">
+                            <div class="mb-2 flex-1 mx-1">
                                 <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
-                                <input type="text" name="amount" id="amount" value="0" class="border rounded w-20 py-2
+                                <input type="text" name="amount" id="amount" value="0" class="border rounded w-20
                                 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </div>
                             <div class="flex justify-start flex-1 mt-6">
