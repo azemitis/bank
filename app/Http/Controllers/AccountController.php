@@ -36,7 +36,7 @@ class AccountController extends Controller
 
         $user->accounts()->save($account);
 
-        return redirect()->route('dashboard')->with('success', 'Account opened successfully.');
+        return redirect()->route('dashboard')->with('success', 'New account opened successfully.');
     }
 
     public function destroy(Account $account)

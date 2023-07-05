@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
+    public function index()
+    {
+        $user = auth()->user();
+        $transactions = $user->transactions()->get();
+
+        return view('transactions', compact('transactions'));
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -49,6 +57,6 @@ class TransactionController extends Controller
         ]);
         $transaction->save();
 
-        return redirect()->route('dashboard')->with('success', 'Transfer successful.');
+        return redirect()->route('dashboard')->with('success', 'Money transfer successful.');
     }
 }
