@@ -12,8 +12,9 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        $transactions = $user->transactions()->get();
+        $transactions = Transaction::with(['senderAccount', 'recipientAccount'])
+            ->withTrashed()
+            ->get();
 
         return view('transactions', compact('transactions'));
     }
@@ -29,6 +30,7 @@ class TransactionController extends Controller
         $amount = $request->input('amount');
         $currencyConverter = new CurrencyConverter();
         $convertedAmount = $currencyConverter->convert($senderAccount->currency, $recipientAccount->currency, $amount);
+        $currencyRate = $currencyConverter->getConversionRate($senderAccount->currency, $recipientAccount->currency);
 
         $validator->after(function ($validator) use ($senderAccount, $amount, $convertedAmount) {
             if ($senderAccount->balance < $amount) {
@@ -51,6 +53,8 @@ class TransactionController extends Controller
         $transaction = new Transaction([
             'amount' => $amount,
             'converted_amount' => $convertedAmount,
+            'currency_rate' => $currencyRate,
+            'amount_received' => $convertedAmount,
             'sender_account_id' => $senderAccount->id,
             'recipient_account_id' => $recipientAccount->id,
             'user_id' => Auth::id(),

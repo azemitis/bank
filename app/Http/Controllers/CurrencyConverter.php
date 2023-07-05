@@ -56,4 +56,14 @@ class CurrencyConverter extends Controller
         $this->conversionRates[$currency2][$currency1] =
             1 / $this->conversionRates[$currency1][$currency2];
     }
+
+    public function getConversionRate(string $originalCurrency, string $recipientCurrency): ?float
+    {
+        if (isset($this->conversionRates[$originalCurrency])
+            && isset($this->conversionRates[$originalCurrency][$recipientCurrency])) {
+            return $this->conversionRates[$originalCurrency][$recipientCurrency];
+        }
+
+        return null;
+    }
 }

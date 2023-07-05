@@ -11,17 +11,19 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->decimal('amount', 10, 2);
+            $table->decimal('currency_rate', 10, 2)->default(0);
+            $table->decimal('amount_received', 10, 2)->default(0);
             $table->foreignId('user_id')->constrained();
             $table->foreignId('sender_account_id')
                 ->nullable()
                 ->constrained('accounts')
                 ->onDelete('set null');
-
             $table->foreignId('recipient_account_id')
                 ->nullable()
                 ->constrained('accounts')
                 ->onDelete('set null');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

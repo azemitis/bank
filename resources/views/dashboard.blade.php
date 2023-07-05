@@ -166,7 +166,7 @@
                                     </tr>
                                 @else
                                     <tr>
-                                        <td colspan="3" class="px-4 py-2">No transactions found.</td>
+                                        <td colspan="3" class="px-4 py-2">No transactions made.</td>
                                     </tr>
                                 @endif
                                 </tbody>

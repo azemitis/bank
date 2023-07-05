@@ -15,9 +15,9 @@ class CreateAccountsTable extends Migration
             $table->string('currency')->default('EUR');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
-
 
     public function down()
     {
