@@ -12,7 +12,15 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with(['senderAccount', 'recipientAccount'])
+        $user = Auth::user();
+        $transactions = Transaction::where(function ($query) use ($user) {
+            $query->whereHas('senderAccount', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->orWhereHas('recipientAccount', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            });
+        })
+            ->with(['senderAccount', 'recipientAccount'])
             ->withTrashed()
             ->get();
 

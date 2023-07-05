@@ -19,60 +19,65 @@
                                     <thead>
                                     <tr>
                                         <th class="bg-indigo-200 border-b border-r border-white px-4 py-2 text-left
-                                            text-gray-800 font-semibold">Sender's Account
+                                        text-gray-800 font-semibold">Sender's Account
                                         </th>
                                         <th class="bg-indigo-200 border-b border-r border-white px-4 py-2 text-left
-                                            text-gray-800 font-semibold">Recipient's Account
+                                        text-gray-800 font-semibold">Recipient's Account
                                         </th>
                                         <th class="bg-indigo-200 border-b border-r border-white border-solid border-1
-                                            px-4 py-2 text-left text-gray-800 font-semibold">Amount sent
+                                        px-4 py-2 text-left text-gray-800 font-semibold">Amount sent
                                         </th>
                                         <th class="bg-indigo-200 border-b border-r border-white border-solid border-1
-                                            px-4 py-2 text-left text-gray-800 font-semibold">Conversion Rate
+                                        px-4 py-2 text-left text-gray-800 font-semibold">Conversion Rate
                                         </th>
                                         <th class="bg-indigo-200 border-b border-white px-4 py-2 text-left
-                                            text-gray-800 font-semibold">Amount Received
+                                        text-gray-800 font-semibold">Amount Received
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($transactions as $transaction)
-                                        <tr class="border-b border-gray-300">
-                                            <td class="border-gray-300 border-r px-4 py-2">
-                                                @if ($transaction->senderAccount)
-                                                    @if ($transaction->senderAccount->trashed())
-                                                        Closed ({{ $transaction->senderAccount->account_number }})
-                                                    @else
-                                                        {{ $transaction->senderAccount->account_number }}
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td class="border-gray-300 border-r px-4 py-2">
-                                                @if ($transaction->recipientAccount)
-                                                    @if ($transaction->recipientAccount->trashed())
-                                                        Closed ({{ $transaction->recipientAccount->account_number }})
-                                                    @else
-                                                        {{ $transaction->recipientAccount->account_number }}
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            <td class="border-gray-300 border-r px-4 py-2">
-                                                {{ $transaction->amount }}
-                                            </td>
-                                            <td class="border-gray-300 border-r px-4 py-2">
-                                                {{ $transaction->currency_rate }}
-                                            </td>
-                                            <td class="border-gray-300 px-4 py-2">
-                                                {{ $transaction->amount_received }}
-                                            </td>
+                                    @if ($transactions->isEmpty())
+                                        <tr>
+                                            <td colspan="5" class="text-left py-4 px-4">No transactions</td>
                                         </tr>
-                                    @endforeach
+                                    @else
+                                        @foreach ($transactions as $transaction)
+                                            <tr class="border-b border-gray-300">
+                                                <td class="border-gray-300 border-r px-4 py-2">
+                                                    @if ($transaction->senderAccount)
+                                                        @if ($transaction->senderAccount->trashed())
+                                                            Closed ({{ $transaction->senderAccount->account_number }})
+                                                        @else
+                                                            {{ $transaction->senderAccount->account_number }}
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td class="border-gray-300 border-r px-4 py-2">
+                                                    @if ($transaction->recipientAccount)
+                                                        @if ($transaction->recipientAccount->trashed())
+                                                            Closed ({{ $transaction->recipientAccount->account_number }})
+                                                        @else
+                                                            {{ $transaction->recipientAccount->account_number }}
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td class="border-gray-300 border-r px-4 py-2">
+                                                    {{ $transaction->amount }}
+                                                </td>
+                                                <td class="border-gray-300 border-r px-4 py-2">
+                                                    {{ $transaction->currency_rate }}
+                                                </td>
+                                                <td class="border-gray-300 px-4 py-2">
+                                                    {{ $transaction->amount_received }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
