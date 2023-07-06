@@ -46,8 +46,8 @@ class DepositController extends Controller
         $amount = $request->input('amount');
         $accountNumber = $fromAccount->account_number;
 
-        $validator->after(function ($validator) use ($fromAccount) {
-            if ($fromAccount->balance <= 0) {
+        $validator->after(function ($validator) use ($fromAccount, $amount) {
+            if ($fromAccount->balance < $amount) {
                 $validator->errors()->add('from_account', 'The selected account has insufficient balance.');
             }
         });
@@ -72,8 +72,12 @@ class DepositController extends Controller
         $depositAccount->currency = $currency;
         $depositAccount->term = $term;
         $depositAccount->rate = $rate;
-        $depositAccount->amount = $finalAmount;
+        $depositAccount->amount = $amount;
+        $depositAccount->amount_with_interests = $finalAmount;
         $depositAccount->save();
+
+        $fromAccount->balance -= $amount;
+        $fromAccount->save();
 
         return redirect()->route('deposits.index')->with('success', 'Deposit account opened successfully.');
     }

@@ -18,6 +18,7 @@ class CreateDepositAccountsTable extends Migration
             $table->integer('term');
             $table->foreignId('from_account')->constrained('accounts')->onDelete('cascade');
             $table->decimal('amount', 12, 2)->nullable();
+            $table->decimal('amount_with_interests', 12, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -20,6 +20,7 @@ class DepositAccount extends Model
         'rate',
         'term',
         'amount',
+        'amount_with_interests'
     ];
 
     public function user(): BelongsTo
