@@ -33,8 +33,8 @@
                                                 md:text-6xl xl:text-7xl">
                                                 Why our bank is so <br/><span class="text-gray-200">great</span>?
                                             </h1>
-                                            <p class="text-[hsl(210,12%,80%)] mb-2">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                            <p class="text-[hsl(210,12%,80%)] mb-8">
+                                                You can do lot of things in our bank!
                                             </p>
                                             <a class="inline-block rounded bg-gray-100 px-6 py-2 text-sm font-medium
                                             uppercase text-gray-800 transition duration-150 ease-in-out
@@ -139,26 +139,6 @@
                         <div class="mb-6 flex">
                             <div class="shrink-0">
                                 <div class="rounded-md bg-[hsl(204,30%,20%)] p-4 shadow-lg dark:bg-[hsl(204,23%,30%)]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="2" stroke="currentColor" class="h-6 w-6 text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M15.207 9.793l-6.5 6.5a2 2 0 01-2.914-2.672l6.5-6.5a2 2 0 012.914
-                                              2.672zM13 12l5 5m0 0l-5-5m5 5H6m15-4h-3v3h3v-3zM6 7H3v3h3V7zm3
-                                              0H6v3h3V7zm3 0H9v3h3V7zm3 0h-3v3h3V7zm3 0h-3v3h3V7zm0 3v3h3v-3h-3z"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="ml-4 grow">
-                                <p class="mb-1 font-bold">Safety mechanisms</p>
-                                <p class="text-neutral-500 dark:text-neutral-300">
-                                    Code calculator for safe transactions
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="mb-6 flex">
-                            <div class="shrink-0">
-                                <div class="rounded-md bg-[hsl(204,30%,20%)] p-4 shadow-lg dark:bg-[hsl(204,23%,30%)]">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          fill="none" viewBox="0 0 24 24" stroke-width="2"
                                          stroke="currentColor" class="h-6 w-6 text-white">
@@ -219,6 +199,26 @@
                                 <p class="mb-1 font-bold">Deposit account</p>
                                 <p class="text-neutral-500 dark:text-neutral-300">
                                     You can make a deposit account
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 flex">
+                            <div class="shrink-0">
+                                <div class="rounded-md bg-[hsl(204,30%,20%)] p-4 shadow-lg dark:bg-[hsl(204,23%,30%)]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="2" stroke="currentColor" class="h-6 w-6 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M15.207 9.793l-6.5 6.5a2 2 0 01-2.914-2.672l6.5-6.5a2 2 0 012.914
+                                              2.672zM13 12l5 5m0 0l-5-5m5 5H6m15-4h-3v3h3v-3zM6 7H3v3h3V7zm3
+                                              0H6v3h3V7zm3 0H9v3h3V7zm3 0h-3v3h3V7zm3 0h-3v3h3V7zm0 3v3h3v-3h-3z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4 grow">
+                                <p class="mb-1 font-bold">Cryptocurrencies</p>
+                                <p class="text-neutral-500 dark:text-neutral-300">
+                                    You can buy cryptocurrencies using deposit accounts
                                 </p>
                             </div>
                         </div>

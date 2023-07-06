@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Transaction;
+use App\Services\CurrencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -36,7 +37,7 @@ class TransactionController extends Controller
         $senderAccount = Account::findOrFail($request->input('sender_account'));
         $recipientAccount = Account::findOrFail($request->input('recipient_account'));
         $amount = $request->input('amount');
-        $currencyConverter = new CurrencyConverter();
+        $currencyConverter = new CurrencyService();
         $convertedAmount = $currencyConverter->convert($senderAccount->currency, $recipientAccount->currency, $amount);
         $currencyRate = $currencyConverter->getConversionRate($senderAccount->currency, $recipientAccount->currency);
 

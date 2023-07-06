@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 
-class CurrencyConverter extends Controller
+class CurrencyService
 {
     private $conversionRates;
 
