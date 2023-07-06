@@ -52,21 +52,20 @@
                                                             @method('DELETE')
                                                             <!-- Delete account -->
                                                             <button type="button"
-                                                                    onclick="confirmDelete('{{ $account->id }}')"
+                                                                    onclick="confirmDelete({{ $account->id }})"
                                                                     class="bg-white border border-gray-400
                                                                     hover:bg-red-600 hover:text-white text-gray-800
                                                                     font-semibold py-2 px-4 rounded-full inline-flex
                                                                     items-center">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                     class="h-5 w-5 inline-block
-                                                                    align-middle -mt-1" viewBox="0 0 20 20" fill="none"
-                                                                     stroke="currentColor" stroke-width="2"
-                                                                     stroke-linecap="round"
-                                                                     stroke-linejoin="round">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5
+                                                                inline-block align-middle -mt-1" viewBox="0 0 20 20"
+                                                                     fill="none" stroke="currentColor" stroke-width="2"
+                                                                     stroke-linecap="round" stroke-linejoin="round">
                                                                     <path d="M18 6L6 18M6 6l12 12"></path>
                                                                 </svg>
                                                                 <span class="ml-2">Close Account</span>
                                                             </button>
+
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -79,7 +78,7 @@
                                     <div class="mt-8 flex items-center">
                                         <a href="{{ route('accounts.create') }}"
                                            class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2
-                           px-4 rounded-full inline-flex items-center">
+                                                px-4 rounded-full inline-flex items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                  class="h-5 w-5 inline-block align-middle -mt-1"
                                                  viewBox="0 0 20 20" stroke="currentColor">
@@ -102,8 +101,8 @@
                                                            class="block text-gray-700 text-sm font-bold mb-2">
                                                         Sender's Account:</label>
                                                     <select name="sender_account" id="sender_account"
-                                                            class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
-                                            focus:outline-none focus:shadow-outline">
+                                                            class="border rounded w-full py-2 px-3 text-gray-700
+                                                            leading-tight focus:outline-none focus:shadow-outline">
                                                         @foreach ($accounts as $account)
                                                             <option
                                                                 value="{{ $account->id }}">
@@ -116,8 +115,8 @@
                                                            class="block text-gray-700 text-sm font-bold mb-2">
                                                         Recipient's Account:</label>
                                                     <select name="recipient_account" id="recipient_account"
-                                                            class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
-                                                            focus:outline-none focus:shadow-outline">
+                                                            class="border rounded w-full py-2 px-3 text-gray-700
+                                                            leading-tight focus:outline-none focus:shadow-outline">
                                                         @foreach ($accounts as $account)
                                                             <option
                                                                 value="{{ $account->id }}">{{ $account->account_number }}
@@ -130,12 +129,12 @@
                                                            class="block text-gray-700 text-sm font-bold mb-2">
                                                         Amount:</label>
                                                     <input type="text" name="amount" id="amount" value="0"
-                                                           class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
-                                           focus:outline-none text-center focus:shadow-outline">
+                                                           class="border rounded w-full py-2 px-3 text-gray-700
+                                                           leading-tight focus:outline-none text-center focus:shadow-outline">
                                                 </div>
                                                 <div class="col-span-1 flex items-end justify-center">
-                                                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white
-                                    font-semibold py-2 px-4 rounded-xl">Transfer
+                                                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600
+                                                    text-white font-semibold py-2 px-4 rounded-xl">Transfer
                                                     </button>
                                                 </div>
                                             </form>
@@ -148,6 +147,7 @@
                                         </div>
                                     @endif
 
+                                    <!-- FLash messages -->
                                     @if ($errors->any())
                                         <div id="flash-error-message" class="flash-message flash-error ml-2 -mt-2">
                                             <ul>
@@ -217,6 +217,21 @@
         </div>
     </div>
 
+    <!-- Account delete conformation modal -->
+    <div id="delete-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-white w-1/3 rounded-lg shadow-lg p-8">
+            <p class="text-gray-800 text-lg mb-4">Are you sure you want to delete this account?</p>
+            <div class="flex justify-end">
+                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg mr-2"
+                        onclick="deleteAccount()">Close account
+                </button>
+                <button type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg"
+                        onclick="cancelDelete()">Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
     <style>
         .flash-message {
             position: fixed;
@@ -279,13 +294,30 @@
             showFlashMessage('flash-error-message', 'flash-error');
         }
 
-        <!-- Delete conformation -->
+        <!-- Account delete conformation -->
         function confirmDelete(accountId) {
-            if (confirm('Are you sure you want to close this account?')) {
-                document.getElementById('deleteForm-' + accountId).submit();
-            }
+            const modal = document.getElementById('delete-modal');
+            modal.classList.add('flex');
+            modal.classList.remove('hidden');
+
+            modal.dataset.accountId = accountId;
+        }
+
+        function deleteAccount() {
+            const modal = document.getElementById('delete-modal');
+            const accountId = modal.dataset.accountId;
+
+            document.getElementById('deleteForm-' + accountId).submit();
+
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function cancelDelete() {
+            const modal = document.getElementById('delete-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
     </script>
 
 </x-app-layout>
-
