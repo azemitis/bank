@@ -31,7 +31,7 @@
                                         <div class="px-6 py-12 text-center text-white md:px-12">
                                             <h1 class="mt-2 mb-16 text-5xl font-bold tracking-tight
                                                 md:text-6xl xl:text-7xl">
-                                                Why our bank is so <br/><span class="text-gray-200">great</span>?
+                                                Why our banking is so <br/><span class="text-gray-200">great</span>?
                                             </h1>
                                             <p class="text-[hsl(210,12%,80%)] mb-8">
                                                 You can do lot of things in our bank!

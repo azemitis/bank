@@ -89,6 +89,19 @@
                                         </a>
                                     </div>
 
+                                    <!-- Open new deposit account -->
+                                    <div class="mt-8 flex items-center">
+                                        <a href="{{ route('deposits.index') }}" class="bg-indigo-500 hover:bg-indigo-600
+                                        text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block
+                                            align-middle -mt-1" viewBox="0 0 20 20" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                            </svg>
+                                            <span class="ml-2">Open Deposit Account</span>
+                                        </a>
+                                    </div>
+
                                     <!-- Make Money Transaction section -->
                                     <div class="mt-8">
                                         <h4 class="text-xl font-semibold text-gray-800 mb-4">Transfer Money</h4>

@@ -2,9 +2,6 @@
     <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <div class="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-lg">
             <div class="flex justify-center">
-                <a href="/">
-                    <img class="w-20 h-20" src="/path/to/your/logo.png" alt="Logo">
-                </a>
             </div>
 
             <h2 class="mt-6 text-3xl font-semibold text-center text-gray-800">Register</h2>
