@@ -29,6 +29,7 @@
                                         <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Amount Due
                                         </th>
                                         <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Rate</th>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Withdraw</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -40,6 +41,15 @@
                                             <td class="px-4 py-2 border">{{ $account->amount }}</td>
                                             <td class="px-4 py-2 border">{{ $account->amount_with_interests }}</td>
                                             <td class="px-4 py-2 border">{{ $account->rate }}%</td>
+                                            <td class="px-4 py-2 border">
+                                                <form action="{{ route('deposits.withdraw', $account) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="bg-gray-400 hover:bg-red-600
+                                                    text-white font-bold py-2 px-4 rounded focus:outline-none
+                                                    focus:shadow-outline">Withdraw</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     @if ($depositAccounts->isEmpty())

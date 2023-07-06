@@ -81,4 +81,16 @@ class DepositController extends Controller
 
         return redirect()->route('deposits.index')->with('success', 'Deposit account opened successfully.');
     }
+
+    public function withdraw(DepositAccount $depositAccount)
+    {
+        $fromAccount = Account::findOrFail($depositAccount->from_account);
+
+        $fromAccount->balance += $depositAccount->amount;
+        $fromAccount->save();
+
+        $depositAccount->delete();
+
+        return redirect()->route('deposits.index')->with('success', 'Deposit withdrawn successfully.');
+    }
 }
