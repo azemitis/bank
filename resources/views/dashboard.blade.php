@@ -212,75 +212,80 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <style>
-                        .flash-message {
-                            position: fixed;
-                            top: 90px;
-                            left: 50%;
-                            transform: translateX(-50%);
-                            padding: 10px 35px;
-                            border-radius: 8px;
-                            opacity: 0;
-                            transition: opacity 0.3s ease-in-out;
-                            max-width: calc(100% - 70px);
-                        }
+    <style>
+        .flash-message {
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 35px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            max-width: calc(100% - 70px);
+        }
 
-                        .flash-success {
-                            background-color: #008000;
-                            color: #ffffff;
-                        }
+        .flash-success {
+            background-color: #008000;
+            color: #ffffff;
+        }
 
-                        .flash-error {
-                            background-color: #ff0000;
-                            color: #ffffff;
-                        }
+        .flash-error {
+            background-color: #ff0000;
+            color: #ffffff;
+        }
 
-                        .flash-message.show {
-                            opacity: 1;
-                        }
+        .flash-message.show {
+            opacity: 1;
+        }
 
-                        @keyframes flash {
-                            0% {
-                                background-color: inherit;
-                            }
-                            50% {
-                                background-color: #00ff00;
-                            }
-                            100% {
-                                background-color: inherit;
-                            }
-                        }
-                    </style>
+        @keyframes flash {
+            0% {
+                background-color: inherit;
+            }
+            50% {
+                background-color: #00ff00;
+            }
+            100% {
+                background-color: inherit;
+            }
+        }
+    </style>
 
-                    <script>
-                        function showFlashMessage(elementId, type) {
-                            const flashMessage = document.getElementById(elementId);
-                            flashMessage.classList.add('show');
+    <script>
+        function showFlashMessage(elementId, type) {
+            const flashMessage = document.getElementById(elementId);
+            flashMessage.classList.add('show');
 
-                            setTimeout(function () {
-                                flashMessage.classList.remove('show');
-                            }, 2000);
-                        }
+            setTimeout(function () {
+                flashMessage.classList.remove('show');
+            }, 2000);
+        }
 
-                        <!-- Show success message -->
-                        const successMessage = document.getElementById('flash-success-message');
-                        if (successMessage) {
-                            showFlashMessage('flash-success-message', 'flash-success');
-                        }
+        <!-- Show success message -->
+        const successMessage = document.getElementById('flash-success-message');
+        if (successMessage) {
+            showFlashMessage('flash-success-message', 'flash-success');
+        }
 
-                        <!-- Show error message -->
-                        const errorMessage = document.getElementById('flash-error-message');
-                        if (errorMessage) {
-                            showFlashMessage('flash-error-message', 'flash-error');
-                        }
+        <!-- Show error message -->
+        const errorMessage = document.getElementById('flash-error-message');
+        if (errorMessage) {
+            showFlashMessage('flash-error-message', 'flash-error');
+        }
 
-                        <!-- Delete conformation -->
-                        function confirmDelete(accountId) {
-                            if (confirm('Are you sure you want to close this account?')) {
-                                document.getElementById('deleteForm-' + accountId).submit();
-                            }
-                        }
-                    </script>
+        <!-- Delete conformation -->
+        function confirmDelete(accountId) {
+            if (confirm('Are you sure you want to close this account?')) {
+                document.getElementById('deleteForm-' + accountId).submit();
+            }
+        }
+    </script>
 
 </x-app-layout>
+
