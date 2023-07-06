@@ -37,7 +37,7 @@ class DepositController extends Controller
             'from_account' => 'required|exists:accounts,id',
             'currency' => 'required|in:EUR,USD,GBP',
             'term' => 'required|integer',
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required|numeric',
         ]);
 
         $fromAccount = Account::findOrFail($request->input('from_account'));
@@ -77,5 +77,4 @@ class DepositController extends Controller
 
         return redirect()->route('deposits.index')->with('success', 'Deposit account opened successfully.');
     }
-
 }

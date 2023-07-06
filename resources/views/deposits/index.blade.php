@@ -1,12 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Your Deposit Accounts') }}
+            {{ __('Welcome to the bank!') }}
         </h2>
     </x-slot>
 
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-indigo-100 border-b border-gray-200">
+
     <!-- Display Deposit Accounts -->
-    <div class="mt-20">
+    <div class="py-8">
         <div class="container mx-auto px-20">
             <h4 class="text-xl font-semibold text-gray-800 mb-4">Current Deposit Accounts</h4>
             <div class="overflow-x-auto">
@@ -107,6 +112,90 @@
             </form>
         </div>
 
+        <!-- FLash messages -->
+        @if(session('success'))
+            <div id="flash-success-message" class="flash-message flash-success ml-2 -mt-2">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div id="flash-error-message" class="flash-message flash-error ml-2 -mt-2">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
     </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <style>
+        .flash-message {
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 35px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            max-width: calc(100% - 70px);
+        }
+
+        .flash-success {
+            background-color: #008000;
+            color: #ffffff;
+        }
+
+        .flash-error {
+            background-color: #ff0000;
+            color: #ffffff;
+        }
+
+        .flash-message.show {
+            opacity: 1;
+        }
+
+        @keyframes flash {
+            0% {
+                background-color: inherit;
+            }
+            50% {
+                background-color: #00ff00;
+            }
+            100% {
+                background-color: inherit;
+            }
+        }
+    </style>
+
+    <script>
+        function showFlashMessage(elementId, type) {
+            const flashMessage = document.getElementById(elementId);
+            flashMessage.classList.add('show');
+
+            setTimeout(function () {
+                flashMessage.classList.remove('show');
+            }, 2000);
+        }
+
+        <!-- Show success message -->
+        const successMessage = document.getElementById('flash-success-message');
+        if (successMessage) {
+            showFlashMessage('flash-success-message', 'flash-success');
+        }
+
+        <!-- Show error message -->
+        const errorMessage = document.getElementById('flash-error-message');
+        if (errorMessage) {
+            showFlashMessage('flash-error-message', 'flash-error');
+        }
+    </script>
 
 </x-app-layout>

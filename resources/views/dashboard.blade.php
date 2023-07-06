@@ -6,13 +6,13 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-indigo-100 border-b border-gray-200">
 
                     <!-- Accounts block -->
-                    <div class="py-12">
+                    <div class="py-8">
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                                 <div class="p-6 bg-indigo-100 border-b border-gray-200">
@@ -154,13 +154,13 @@
                                         </div>
                                     </div>
 
+                                    <!-- FLash messages -->
                                     @if(session('success'))
                                         <div id="flash-success-message" class="flash-message flash-success ml-2 -mt-2">
                                             {{ session('success') }}
                                         </div>
                                     @endif
 
-                                    <!-- FLash messages -->
                                     @if ($errors->any())
                                         <div id="flash-error-message" class="flash-message flash-error ml-2 -mt-2">
                                             <ul>
