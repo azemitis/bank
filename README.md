@@ -1,33 +1,20 @@
-Bank application. Functionality:
+# Bank application
 
-1. Authorization
+![Img](img.jpg)
 
-Super-safe 2-factor authorization.
+Bank is a Laravel 8 and PHP 7.3 application.
+### Installation
 
-2. Several bank accounts
+To install Bank appllication, follow these steps:
 
-You can create more than one bank account!
+    Clone the repository to your local machine using the following command:
 
-3. Account transfers
+git clone https://github.com/azemitis/bank.git
 
-You can transfer money from one account to another one!
+    Navigate to the project directory:
 
-4. Safety mechanisms
+cd bank
 
-Code calculator for safe transactions
+    Install the dependencies using Composer:
 
-5. History
-
-Transaction history
-
-6. Convert currency
-
-If bank account is created in other currencies, do currency conversions to other accounts using official Bank of Latvia currency rate
-
-7. Deposit account
-
-You can make a deposit account
-
-8. Flexible Deposit account
-
-You can withdraw money or put more in the deposit account
+composer install
