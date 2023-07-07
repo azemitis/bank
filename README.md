@@ -3,18 +3,45 @@
 ![Img](img.jpg)
 
 Bank is a Laravel 8 and PHP 7.3 application.
+
 ### Installation
 
-To install Bank appllication, follow these steps:
+To install Bank appllication, follow these steps.
 
-    Clone the repository to your local machine using the following command:
+1. Clone the repository to your local machine using the following command:
 
-git clone https://github.com/azemitis/bank.git
 
-    Navigate to the project directory:
+    git clone https://github.com/azemitis/bank.git
 
-cd bank
+2. Navigate to the project directory:
 
-    Install the dependencies using Composer:
 
-composer install
+    cd bank
+
+3. Install the dependencies using Composer:
+
+
+    composer install
+
+4. Install npm dependencies:
+
+
+    npm install
+
+5. Make a copy of the .env.example file and rename it to .env:
+
+
+    copy .env.example .env
+
+6. Setup correct name and password for the database (root, root default).
+
+
+7. Generate new application key:
+
+
+    php artisan key:generate
+
+8. Run application:
+
+
+    php artisan serve
