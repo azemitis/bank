@@ -70,6 +70,11 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
+                                            @if ($accounts->isEmpty())
+                                                <tr>
+                                                    <td colspan="4" class="px-4 py-2">No accounts opened.</td>
+                                                </tr>
+                                            @endif
                                             </tbody>
                                         </table>
                                     </div>
