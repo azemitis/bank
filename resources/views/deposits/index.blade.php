@@ -42,13 +42,24 @@
                                             <td class="px-4 py-2 border">{{ $account->amount_with_interests }}</td>
                                             <td class="px-4 py-2 border">{{ $account->rate }}%</td>
                                             <td class="px-4 py-2 border">
-                                                <form action="{{ route('deposits.withdraw', $account) }}" method="POST">
+                                                <!-- Withdraw deposit account -->
+                                                <button type="button" onclick="confirmDelete({{ $account->id }})"
+                                                        class="bg-white border border-gray-400 hover:bg-red-600
+                                                        hover:text-white text-gray-800 font-semibold py-2 px-4
+                                                        rounded-full inline-flex items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block
+                                                    align-middle -mt-1" viewBox="0 0 20 20"
+                                                         fill="none" stroke="currentColor" stroke-width="2"
+                                                         stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M18 6L6 18M6 6l12 12"></path>
+                                                    </svg>
+                                                    <span class="ml-2">Withdraw</span>
+                                                </button>
+                                                <form id="deleteForm-{{ $account->id }}"
+                                                      action="{{ route('deposits.withdraw', $account) }}" method="POST"
+                                                      style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="bg-gray-400 hover:bg-red-600
-                                                    text-white font-bold py-2 px-4 rounded focus:outline-none
-                                                    focus:shadow-outline">Withdraw
-                                                    </button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -92,7 +103,6 @@
                                             <td class="px-4 py-2 border">{{ $account->amount }}</td>
                                             <td class="px-4 py-2 border">{{ $account->amount_with_interests }}</td>
                                             <td class="px-4 py-2 border">{{ $account->rate }}%</td>
-                                            </td>
                                         </tr>
                                     @endforeach
                                     @if ($closedDepositAccounts->isEmpty())
@@ -134,6 +144,7 @@
                                         <tbody>
                                         <tr>
                                             <td class="border border-gray-300 px-4 py-2">
+                                                <!--suppress HtmlFormInputWithoutLabel -->
                                                 <select name="from_account" id="from_account"
                                                         class="border rounded py-2 px-3 text-gray-700 focus:outline-none
                                                         focus:shadow-outline w-60">
@@ -146,6 +157,7 @@
                                             </td>
 
                                             <td class="border border-gray-300 px-4 py-2">
+                                                <!--suppress HtmlFormInputWithoutLabel -->
                                                 <input type="text" readonly id="available_balance"
                                                        value="{{ $accounts[0]->balance }}"
                                                        class="border rounded py-2 px-3 text-gray-700 bg-gray-100
@@ -154,6 +166,7 @@
                                             </td>
 
                                             <td class="border border-gray-300 px-4 py-2">
+                                                <!--suppress HtmlFormInputWithoutLabel -->
                                                 <select name="currency" id="currency"
                                                         class="border rounded py-2 px-3 text-gray-700 focus:outline-none
                                                         focus:shadow-outline w-20">
@@ -164,6 +177,7 @@
                                             </td>
 
                                             <td class="border border-gray-300 px-4 py-2">
+                                                <!--suppress HtmlFormInputWithoutLabel -->
                                                 <select name="term" id="term"
                                                         class="border rounded py-2 px-3 text-gray-700 focus:outline-none
                                                         focus:shadow-outline  w-28">
@@ -175,6 +189,7 @@
                                             </td>
 
                                             <td class="border border-gray-300 px-4 py-2">
+                                                <!--suppress HtmlFormInputWithoutLabel -->
                                                 <input type="text" name="amount" id="amount"
                                                        class="border rounded py-2 px-3 text-gray-700 focus:outline-none
                                                        focus:shadow-outline w-24">
@@ -217,8 +232,23 @@
         </div>
     </div>
 
+    <!-- Account withdraw conformation modal -->
+    <div id="delete-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-white w-1/3 rounded-lg shadow-lg p-8">
+            <p class="text-gray-800 text-lg mb-4">Are you sure you want to withdraw from money from this account?</p>
+            <div class="flex justify-end">
+                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg mr-2"
+                        onclick="deleteAccount()">Close account
+                </button>
+                <button type="button" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg"
+                        onclick="cancelDelete()">Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        function showFlashMessage(elementId, type) {
+        function showFlashMessage(elementId) {
             const flashMessage = document.getElementById(elementId);
             flashMessage.classList.add('show');
 
@@ -255,6 +285,31 @@
 
         <!-- Update account balance on page load -->
         window.addEventListener('DOMContentLoaded', updateAccountBalance);
+
+        <!-- Account withrdraw conformation -->
+        function confirmDelete(accountId) {
+            const modal = document.getElementById('delete-modal');
+            modal.classList.add('flex');
+            modal.classList.remove('hidden');
+
+            modal.dataset.accountId = accountId;
+        }
+
+        function deleteAccount() {
+            const modal = document.getElementById('delete-modal');
+            const accountId = modal.dataset.accountId;
+
+            document.getElementById('deleteForm-' + accountId).submit();
+
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function cancelDelete() {
+            const modal = document.getElementById('delete-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
     </script>
 
 </x-app-layout>

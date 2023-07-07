@@ -246,7 +246,7 @@
     </div>
 
     <script>
-        function showFlashMessage(elementId, type) {
+        function showFlashMessage(elementId) {
             const flashMessage = document.getElementById(elementId);
             flashMessage.classList.add('show');
 
