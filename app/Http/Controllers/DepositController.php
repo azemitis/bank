@@ -22,8 +22,10 @@ class DepositController extends Controller
     {
         $accounts = Account::where('user_id', Auth::id())->get();
         $depositAccounts = DepositAccount::where('user_id', Auth::id())->get();
+        $closedDepositAccounts = DepositAccount::onlyTrashed()->where('user_id', Auth::id())->get();
         $terms = [3, 6, 12, 24];
-        return view('deposits.index', compact('accounts', 'depositAccounts', 'terms'));
+        return view('deposits.index',
+            compact('accounts', 'depositAccounts', 'terms', 'closedDepositAccounts'));
     }
 
     public function create()
@@ -112,6 +114,6 @@ class DepositController extends Controller
 
         $depositAccount->delete();
 
-        return redirect()->route('deposits.index')->with('success', 'Deposit withdrawn successfully.');
+        return redirect()->route('deposits.index')->with('success', 'Deposit account restored successfully.');
     }
 }

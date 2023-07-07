@@ -29,7 +29,7 @@
                                         <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Amount Due
                                         </th>
                                         <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Rate</th>
-                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border"></th>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -56,6 +56,48 @@
                                     @if ($depositAccounts->isEmpty())
                                         <tr>
                                             <td colspan="4" class="px-4 py-2 text-left">No deposit accounts opened.</td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Display Closed Deposit Accounts -->
+                        <div class="container mx-auto px-20 mt-10">
+                            <h4 class="text-xl font-semibold text-gray-800 mb-4">Closed Deposit Accounts</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full bg-white rounded-lg overflow-hidden shadow-lg">
+                                    <thead class="bg-indigo-200">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">
+                                            Account Number
+                                        </th>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Currency</th>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Term</th>
+                                        <th class="pl-4 py-2 text-left text-gray-800 font-semibold border">
+                                            Amount Deposited
+                                        </th>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Amount Due
+                                        </th>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Rate</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($closedDepositAccounts as $account)
+                                        <tr class="border-b border-gray-300">
+                                            <td class="px-4 py-2 border">{{ $account->account_number }}</td>
+                                            <td class="px-4 py-2 border">{{ $account->currency }}</td>
+                                            <td class="px-4 py-2 border">{{ $account->term }} months</td>
+                                            <td class="px-4 py-2 border">{{ $account->amount }}</td>
+                                            <td class="px-4 py-2 border">{{ $account->amount_with_interests }}</td>
+                                            <td class="px-4 py-2 border">{{ $account->rate }}%</td>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @if ($closedDepositAccounts->isEmpty())
+                                        <tr>
+                                            <td colspan="4" class="px-4 py-2 text-left">No closed deposit accounts.</td>
                                         </tr>
                                     @endif
                                     </tbody>
