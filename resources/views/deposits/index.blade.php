@@ -29,7 +29,7 @@
                                         <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Amount Due
                                         </th>
                                         <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Rate</th>
-                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Withdraw</th>
+                                        <th class="px-4 py-2 text-left text-gray-800 font-semibold border"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -75,6 +75,8 @@
                                                 Account:
                                             </th>
                                             <th class="px-4 py-2 text-left text-gray-800 font-semibold border">
+                                                Available Balance:</th>
+                                            <th class="px-4 py-2 text-left text-gray-800 font-semibold border">
                                                 Currency:
                                             </th>
                                             <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Deposit
@@ -90,7 +92,7 @@
                                             <td class="border border-gray-300 px-4 py-2">
                                                 <select name="from_account" id="from_account"
                                                         class="border rounded py-2 px-3 text-gray-700 focus:outline-none
-                                            focus:shadow-outline w-64">
+                                                        focus:shadow-outline w-60">
                                                     @foreach ($accounts as $account)
                                                         <option
                                                             value="{{ $account->id }}">{{ $account->account_number }}
@@ -98,38 +100,48 @@
                                                     @endforeach
                                                 </select>
                                             </td>
+
+                                            <td class="border border-gray-300 px-4 py-2">
+                                                <input type="text" readonly value="{{ $account->balance }}"
+                                                       class="border rounded py-2 px-3 text-gray-700 bg-gray-100
+                                                       focus:outline-none focus:shadow-outline w-28">
+                                            </td>
+
                                             <td class="border border-gray-300 px-4 py-2">
                                                 <select name="currency" id="currency"
                                                         class="border rounded py-2 px-3 text-gray-700 focus:outline-none
-                                            focus:shadow-outline  w-20">
+                                                        focus:shadow-outline  w-20">
                                                     <option value="EUR">EUR</option>
                                                     <option value="USD">USD</option>
                                                     <option value="GBP">GBP</option>
                                                 </select>
                                             </td>
+
                                             <td class="border border-gray-300 px-4 py-2">
                                                 <select name="term" id="term"
                                                         class="border rounded py-2 px-3 text-gray-700 focus:outline-none
-                                            focus:shadow-outline  w-32">
+                                            focus:shadow-outline  w-28">
                                                     @foreach ($terms as $term)
                                                         <option value="{{ $term }}">{{ $term }} months</option>
                                                     @endforeach
                                                 </select>
                                                 <span id="rate" class="text-gray-700 text-sm ml-2"></span>
                                             </td>
+
                                             <td class="border border-gray-300 px-4 py-2">
                                                 <input type="text" name="amount" id="amount"
                                                        class="border rounded py-2 px-3 text-gray-700
-                                       focus:outline-none focus:shadow-outline w-32"
-                                                       placeholder="Enter amount">
+                                                       focus:outline-none focus:shadow-outline w-24">
                                             </td>
+
                                             <td class="border border-gray-300 px-4 py-2">
                                                 <button type="submit"
-                                                        class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold
-                                                        py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                                        class="bg-indigo-500 text-sm hover:bg-indigo-600 text-white font-bold
+                                                        py-2  rounded focus:outline-none focus:shadow-outline w-32">
                                                     Open Deposit Account
                                                 </button>
                                             </td>
+
                                         </tr>
                                         </tbody>
                                     </table>
@@ -160,46 +172,6 @@
         </div>
     </div>
 
-    <style>
-        .flash-message {
-            position: fixed;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 35px;
-            border-radius: 8px;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            max-width: calc(100% - 70px);
-        }
-
-        .flash-success {
-            background-color: #008000;
-            color: #ffffff;
-        }
-
-        .flash-error {
-            background-color: #ff0000;
-            color: #ffffff;
-        }
-
-        .flash-message.show {
-            opacity: 1;
-        }
-
-        @keyframes flash {
-            0% {
-                background-color: inherit;
-            }
-            50% {
-                background-color: #00ff00;
-            }
-            100% {
-                background-color: inherit;
-            }
-        }
-    </style>
-
     <script>
         function showFlashMessage(elementId, type) {
             const flashMessage = document.getElementById(elementId);
@@ -221,6 +193,7 @@
         if (errorMessage) {
             showFlashMessage('flash-error-message', 'flash-error');
         }
+
     </script>
 
 </x-app-layout>

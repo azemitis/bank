@@ -884,6 +884,9 @@ select {
 .w-28 {
   width: 7rem;
 }
+.w-52 {
+  width: 13rem;
+}
 .min-w-full {
   min-width: 100%;
 }

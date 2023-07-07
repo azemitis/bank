@@ -245,46 +245,6 @@
         </div>
     </div>
 
-    <style>
-        .flash-message {
-            position: fixed;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 35px;
-            border-radius: 8px;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            max-width: calc(100% - 70px);
-        }
-
-        .flash-success {
-            background-color: #008000;
-            color: #ffffff;
-        }
-
-        .flash-error {
-            background-color: #ff0000;
-            color: #ffffff;
-        }
-
-        .flash-message.show {
-            opacity: 1;
-        }
-
-        @keyframes flash {
-            0% {
-                background-color: inherit;
-            }
-            50% {
-                background-color: #00ff00;
-            }
-            100% {
-                background-color: inherit;
-            }
-        }
-    </style>
-
     <script>
         function showFlashMessage(elementId, type) {
             const flashMessage = document.getElementById(elementId);

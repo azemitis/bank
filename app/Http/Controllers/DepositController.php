@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\DepositAccount;
+use App\Services\CurrencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class DepositController extends Controller
 {
+    private $currencyService;
+
+    public function __construct(CurrencyService $currencyService)
+    {
+        $this->currencyService = $currencyService;
+    }
+
     public function index()
     {
         $accounts = Account::where('user_id', Auth::id())->get();
@@ -46,11 +54,13 @@ class DepositController extends Controller
         $amount = $request->input('amount');
         $accountNumber = $fromAccount->account_number;
 
-        $validator->after(function ($validator) use ($fromAccount, $amount) {
-            if ($fromAccount->balance < $amount) {
-                $validator->errors()->add('from_account', 'The selected account has insufficient balance.');
-            }
-        });
+        if (is_numeric($amount)) {
+            $validator->after(function ($validator) use ($fromAccount, $amount) {
+                if ($fromAccount->balance < $amount) {
+                    $validator->errors()->add('from_account', 'The selected account has insufficient balance.');
+                }
+            });
+        }
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -63,7 +73,18 @@ class DepositController extends Controller
             24 => 8
         ];
         $rate = $rates[$term];
-        $finalAmount = $amount * (1 + ($rate / 100));
+        if ($currency !== $fromAccount->currency) {
+            $conversionRate = $this->currencyService->getConversionRate($currency, $fromAccount->currency);
+
+            if ($conversionRate !== null) {
+                $amount = $this->currencyService->convert($fromAccount->currency, $currency, $amount);
+                $finalAmount = $amount * (1 + ($rate / 100));
+            } else {
+                return redirect()->back()->withErrors(['currency' => 'Currency conversion is not available.'])->withInput();
+            }
+        } else {
+            $finalAmount = $amount * (1 + ($rate / 100));
+        }
 
         $depositAccount = new DepositAccount();
         $depositAccount->user_id = Auth::id();
