@@ -159,7 +159,7 @@
                                             <td class="border border-gray-300 px-4 py-2">
                                                 <!--suppress HtmlFormInputWithoutLabel -->
                                                 <input type="text" readonly id="available_balance"
-                                                       value="{{ $accounts[0]->balance }}"
+                                                       value="{{ $accounts[0]->balance ?? '' }}"
                                                        class="border rounded py-2 px-3 text-gray-700 bg-gray-100
                                                        focus:outline-none focus:shadow-outline w-28"
                                                        onchange="updateAccountBalance()">
