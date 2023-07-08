@@ -70,6 +70,31 @@
     <main>
         {{ $slot }}
     </main>
+
+    <footer>
+        <div class="w-full max-w-screen-xl mx-auto p-2 md:py-4">
+            <div class="flex justify-center">
+                <ul class="flex flex-wrap items-center space-x-4 sm:space-x-6 text-sm font-medium text-gray-500 sm:mb-0
+                dark:text-gray-400">
+                    <li>
+                        <a href="#" class="mr-2 hover:underline">About</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-2 hover:underline">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mr-2 hover:underline">Licensing</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:underline">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <span class="mt-4 block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+            © 2023 <a href="#" class="hover:underline">Your bank</a>. All Rights Reserved.
+        </span>
+        </div>
+    </footer>
 </div>
 </body>
 </html>

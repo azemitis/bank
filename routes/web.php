@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CryptoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\TransactionController;
@@ -25,6 +26,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/deposits', [DepositController::class, 'store'])->name('deposits.store');
     Route::delete('/deposits/{depositAccount}', [DepositController::class, 'withdraw'])
         ->name('deposits.withdraw');
+
+    Route::get('/crypto/index', [CryptoController::class, 'index'])->name('crypto.index');
 });
 
 require __DIR__.'/auth.php';

@@ -14,10 +14,30 @@
                     <!-- Accounts block -->
                     <div class="py-8">
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                <div class="p-6 bg-indigo-100 border-b border-gray-200">
+                            <div class="overflow-hidden p-6">
+
+                                <!-- Open new accounts -->
+                                <div class="mt-2 flex items-center justify-center">
+                                    <a href="{{ route('accounts.create') }}" class="text-white font-semibold
+                                    bg-gradient-to-r from-indigo-500 to-indigo-700 hover:from-indigo-700
+                                    hover:to-indigo-900 px-6 py-3 rounded-l-lg">
+                                        Open New Account
+                                    </a>
+                                    <span class="inline-block h-6 border-l border-white"></span>
+                                    <a href="{{ route('deposits.index') }}" class="text-white font-semibold
+                                    bg-indigo-700 hover:bg-indigo-500 px-6 py-3">
+                                        Open Deposit Account
+                                    </a>
+                                    <span class="inline-block h-6 border-l border-white"></span>
+                                    <a href="{{ route('crypto.index') }}" class="text-white font-semibold
+                                    bg-gradient-to-r from-indigo-700 to-indigo-500 hover:from-indigo-900
+                                    hover:to-indigo-700 px-6 py-3 rounded-r-lg">
+                                        Buy Cryptocurrencies
+                                    </a>
+
+                                </div>
                                     <div>
-                                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Your Bank Accounts</h4>
+                                        <h4 class="text-xl font-semibold text-gray-800 mb-4 mt-10">Your Bank Accounts</h4>
                                         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                                             <thead>
                                             <tr>
@@ -79,35 +99,7 @@
                                         </table>
                                     </div>
 
-                                    <!-- Open new account -->
-                                    <div class="mt-8 flex items-center">
-                                        <a href="{{ route('accounts.create') }}"
-                                           class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2
-                                                px-4 rounded-full inline-flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 class="h-5 w-5 inline-block align-middle -mt-1"
-                                                 viewBox="0 0 20 20" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                            </svg>
-                                            <span class="ml-2">Open New Account</span>
-                                        </a>
-                                    </div>
-
-                                    <!-- Open new deposit account -->
-                                    <div class="mt-8 flex items-center">
-                                        <a href="{{ route('deposits.index') }}" class="bg-indigo-500 hover:bg-indigo-600
-                                        text-white font-semibold py-2 px-4 rounded-full inline-flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block
-                                            align-middle -mt-1" viewBox="0 0 20 20" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                            </svg>
-                                            <span class="ml-2">Open Deposit Account</span>
-                                        </a>
-                                    </div>
-
-                                    <!-- Make Money Transaction section -->
+                                <!-- Make Money Transaction section -->
                                     <div class="mt-8">
                                         <h4 class="text-xl font-semibold text-gray-800 mb-4">Transfer Money</h4>
                                         <div class="bg-white rounded-lg overflow-hidden shadow-sm">
@@ -225,8 +217,6 @@
                                             View all your transactions
                                         </a>
                                     </div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
