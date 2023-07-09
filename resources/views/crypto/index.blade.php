@@ -35,8 +35,9 @@
                         <thead class="bg-indigo-200">
                         <tr>
                             <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Name</th>
-                            <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Price Bought</th>
+                            <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Paid</th>
                             <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Amount</th>
+                            <th class="px-4 py-2 text-left text-gray-800 font-semibold border text-center">Sell</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -45,10 +46,24 @@
                                 <td class="px-4 py-2 border">{{ $ownedCrypto->name }}</td>
                                 <td class="px-4 py-2 border">{{ $ownedCrypto->price_bought }}</td>
                                 <td class="px-4 py-2 border">{{ $ownedCrypto->amount }}</td>
+                                <td class="px-4 py-2 flex justify-center">
+                                    <form action="{{ route('crypto.destroy', $ownedCrypto->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-white border border-gray-400 hover:bg-red-600 hover:text-white text-gray-800 font-semibold py-2 px-4 rounded-full inline-flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block align-middle -mt-1" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M18 6L6 18M6 6l12 12"></path>
+                                            </svg>
+                                            <span class="ml-2">Sell</span>
+                                        </button>
+                                    </form>
+                                </td>
+
+
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="px-4 py-2">No cryptocurrencies bought.</td>
+                                <td colspan="4" class="px-4 py-2">No cryptocurrencies bought.</td>
                             </tr>
                         @endforelse
                         </tbody>

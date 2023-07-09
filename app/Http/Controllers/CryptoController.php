@@ -59,7 +59,7 @@ class CryptoController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -84,5 +84,18 @@ class CryptoController extends Controller
         ]);
 
         return redirect()->route('crypto.index')->with('success', 'Cryptocurrency bought successfully.');
+    }
+
+    public function destroy(Cryptocurrency $cryptocurrency)
+    {
+        $account = $cryptocurrency->account;
+        $priceBought = $cryptocurrency->price_bought;
+
+        $account->balance += $priceBought;
+        $account->save();
+
+        $cryptocurrency->delete();
+
+        return redirect()->route('crypto.index')->with('success', 'Cryptocurrency sold successfully.');
     }
 }

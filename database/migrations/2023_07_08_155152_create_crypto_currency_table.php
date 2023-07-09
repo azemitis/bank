@@ -12,7 +12,7 @@ class CreateCryptoCurrencyTable extends Migration
             $table->id();
             $table->string('name');
             $table->float('price_bought', 18, 8);
-            $table->decimal('amount', 10, 8);
+            $table->float('amount', 20, 8);
             $table->foreignId('account_id')->constrained('accounts');
             $table->softDeletes();
             $table->timestamps();

@@ -742,6 +742,10 @@ select {
   margin-top: 5rem;
   margin-bottom: 5rem;
 }
+.mx-5 {
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+}
 .-ml-px {
   margin-left: -1px;
 }
@@ -1392,6 +1396,10 @@ select {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
 }
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
 .pb-1 {
   padding-bottom: 0.25rem;
 }
@@ -1771,6 +1779,10 @@ select {
 .hover\:text-indigo-600:hover {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
+}
+.hover\:text-red-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity));
 }
 .hover\:underline:hover {
   text-decoration-line: underline;
