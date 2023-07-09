@@ -22,7 +22,9 @@ class CryptoController extends Controller
 
             $data = $response->json();
             $cryptocurrencies = $data['data'];
-            $ownedCryptocurrencies = CryptoCurrency::all();
+            $ownedCryptocurrencies = CryptoCurrency::whereHas('account', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })->get();
 
             return view('crypto.index', compact('cryptocurrencies', 'ownedCryptocurrencies'));
         } catch (\Exception $e) {
@@ -50,14 +52,33 @@ class CryptoController extends Controller
             'cryptocurrencies',
             'selectedCurrencyName',
             'selectedCurrencyRate'
-        ));
+        ))
+            ->withErrors($request->session()->get('errors'));
     }
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $account = Account::findOrFail($request->input('account_id'));
+        $cost = $request->input('cost');
+
+        if ($account->balance < $cost) {
+            return redirect()->back()->withErrors('Insufficient funds.');
+        }
+
+        $account->balance -= $cost;
+        $account->save();
+
         Cryptocurrency::create([
             'name' => $request->input('cryptocurrency_name'),
-            'price_bought' => $request->input('cost'),
+            'price_bought' => $cost,
             'amount' => $request->input('amount'),
             'account_id' => $request->input('account_id'),
         ]);

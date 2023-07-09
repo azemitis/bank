@@ -6,13 +6,26 @@
     </x-slot>
 
     <div class="flex items-center justify-center my-20">
-        <div class="max-w-md mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-indigo-100 border-b border-gray-200 w-96">
-                    <form action="{{ route('crypto.store') }}" method="POST">
+                <div class="p-6 bg-white border-b border-gray-200 w-136">
+                    <!-- Error messages -->
+                    @if ($errors->any())
+                        <div id="flash-error-message" class="flash-message flash-error mt-2">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{!! $error !!}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <!-- Form -->
+                    <form action="{{ route('crypto.store') }}" method="POST" class="space-y-4">
                         @csrf
-                        <div class="mb-4">
-                            <label for="account_id" class="block text-gray-700 text-sm font-bold mb-2">Account:</label>
+                        <div>
+                            <label for="account_id" class="block text-gray-700 text-sm font-bold mb-2 w-96">
+                                Account:</label>
                             <select name="account_id" id="account_id" class="border rounded w-full py-2 px-3
                             text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 @foreach ($accounts as $account)
@@ -21,45 +34,89 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-4">
+                        <div>
                             <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
                             <input type="text" name="amount" id="amount" value="{{ old('amount', '0') }}"
                                    class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
-                                    focus:shadow-outline @error('amount') border-red-500 @enderror">
+                            focus:shadow-outline @error('amount') border-red-500 @enderror">
                             @error('amount')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mb-4">
-                            <label for="cost" class="block text-gray-700 text-sm font-bold mb-2">Cost:</label>
-                            <input type="text" name="cost" id="cost" value="{{ old('cost', '0') }}"
-                                   class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
-                                    focus:shadow-outline @error('cost') border-red-500 @enderror">
+                        <div class="flex items-center justify-between">
+                            <label for="cryptocurrency_id" class="block text-gray-700 text-sm font-bold">Price:</label>
+                            <span id="rate" class="text-gray-700 text-lg">{{ $selectedCurrencyRate }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label for="cryptocurrency_id" class="block text-gray-700 text-sm font-bold">
+                                Cryptocurrency:</label>
+                            <span class="text-gray-700">{{ $selectedCurrencyName }}</span>
+                            <input type="hidden" name="cryptocurrency_name" value="{{ $selectedCurrencyName }}">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label for="cost" class="block text-gray-700 text-sm font-bold">Cost:</label>
+                            <input type="text" name="cost" id="cost" value="{{ old('cost', '0') }}" readonly
+                                   class="py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline
+                            bg-transparent border-none text-xl text-right">
                             @error('cost')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mb-4 flex items-center justify-between">
-                            <label for="cryptocurrency_id" class="block text-gray-700 text-sm font-bold">Price:</label>
-                            <div class="flex">
-                                <span id="rate" class="text-gray-700">{{ $selectedCurrencyRate }}</span>
-                            </div>
-                        </div>
-                        <div class="mb-4 flex items-center justify-between">
-                            <label for="cryptocurrency_id" class="block text-gray-700 text-sm font-bold">
-                                Cryptocurrency:</label>
-                            <div class="flex">
-                                <span class="text-gray-700">{{ $selectedCurrencyName }}</span>
-                                <input type="hidden" name="cryptocurrency_name" value="{{ $selectedCurrencyName }}">
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-end mt-4">
-                            <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2
-                            px-4 rounded focus:outline-none focus:shadow-outline">Buy Cryptocurrency</button>
+                        <div class="flex items-center">
+                            <button type="button" id="calculate"
+                                    class="ml-12 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4
+                                    rounded focus:outline-none focus:shadow-outline">
+                                Calculate
+                            </button>
+                            <button type="submit"
+                                    class="ml-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4
+                                    rounded focus:outline-none focus:shadow-outline">
+                                Buy Cryptocurrency
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <script>
+        function showFlashMessage(elementId) {
+            const flashMessage = document.getElementById(elementId);
+            flashMessage.classList.add('show');
+
+            setTimeout(function () {
+                flashMessage.classList.remove('show');
+            }, 2000);
+        }
+
+        <!-- Show success message -->
+        const successMessage = document.getElementById('flash-success-message');
+        if (successMessage) {
+            showFlashMessage('flash-success-message', 'flash-success');
+        }
+
+        <!-- Show error message -->
+        const errorMessage = document.getElementById('flash-error-message');
+        if (errorMessage) {
+            showFlashMessage('flash-error-message', 'flash-error');
+        }
+
+        <!-- Calculate price -->
+        document.addEventListener('DOMContentLoaded', function () {
+            const calculateButton = document.getElementById('calculate');
+            const amountInput = document.getElementById('amount');
+            const rateSpan = document.getElementById('rate');
+            const costInput = document.getElementById('cost');
+
+            calculateButton.addEventListener('click', function () {
+                const amount = parseFloat(amountInput.value);
+                const rate = parseFloat(rateSpan.textContent);
+                const cost = amount * rate;
+
+                costInput.value = cost.toFixed(2);
+            });
+        });
+    </script>
 </x-app-layout>

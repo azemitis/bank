@@ -1,6 +1,7 @@
 # Bank application
 
 ![Img](img.jpg)
+![Img](crypto.jpg)
 
 Bank is a Laravel 8 and PHP 7.3 application.
 
