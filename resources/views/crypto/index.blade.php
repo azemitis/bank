@@ -40,8 +40,20 @@
                                     ">
                                     {{ $cryptocurrency['quote']['USD']['percent_change_1h'] }}
                                 </td>
-                                <td class="px-4 py-2 border">Purchase</td>
-                                <td class="px-4 py-2 border">Sell</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <button type="submit" class="bg-indigo-500 text-sm hover:bg-indigo-600 text-white
+                                    font-bold py-2 rounded focus:outline-none focus:shadow-outline w-32">
+                                        <a href="{{ route('crypto.create') }}">Buy crypto</a>
+                                    </button>
+
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <button type="submit"
+                                            class="bg-indigo-500 text-sm hover:bg-indigo-600 text-white
+                                            font-bold py-2 rounded focus:outline-none focus:shadow-outline w-32">
+                                        Sell crypto
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
