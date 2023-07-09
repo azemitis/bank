@@ -29,15 +29,23 @@ class CryptoController extends Controller
         }
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $accounts = Account::where('user_id', auth()->user()->id)->get();
-        $selectedCryptocurrencyId = request()->input('cryptocurrency_id');
+        $selectedCryptocurrencyId = $request->input('cryptocurrency_id');
         $selectedCryptocurrency = Cryptocurrency::find($selectedCryptocurrencyId);
         $cryptocurrencies = Cryptocurrency::all();
 
-        return view('crypto.create',
-            compact('accounts', 'selectedCryptocurrency', 'cryptocurrencies'));
+        $selectedCurrencyName = $request->input('selected_currency_name') ?? ($selectedCryptocurrency ? $selectedCryptocurrency->name : '');
+        $selectedCurrencyRate = $request->input('selected_currency_rate') ?? ($selectedCryptocurrency ? $selectedCryptocurrency->quote['USD']['price'] : '');
+
+        return view('crypto.create', compact(
+            'accounts',
+            'selectedCryptocurrency',
+            'cryptocurrencies',
+            'selectedCurrencyName',
+            'selectedCurrencyRate'
+        ));
     }
 
     public function store(Request $request)
@@ -47,8 +55,6 @@ class CryptoController extends Controller
         $validator = Validator::make($request->all(), [
             'account_id' => 'required|exists:accounts,id',
             'amount' => 'required|numeric|min:0',
-            'rate' => 'required|numeric|min:0',
-            'cost' => 'required|numeric|min:0',
             'cryptocurrency_id' => 'required|exists:cryptocurrencies,id',
         ]);
 
@@ -58,9 +64,16 @@ class CryptoController extends Controller
 
         $account = Account::findOrFail($request->input('account_id'));
         $amount = $request->input('amount');
-        $cost = $request->input('cost');
-        $rate = $request->input('rate');
         $cryptocurrencyId = $request->input('cryptocurrency_id');
+
+        $selectedCryptocurrency = Cryptocurrency::find($cryptocurrencyId);
+
+        if (!$selectedCryptocurrency) {
+            return redirect()->back()->withErrors('Invalid cryptocurrency selected.');
+        }
+
+        $rate = $selectedCryptocurrency->rate;
+        $cost = $rate * $amount;
 
         if ($account->balance < $cost) {
             return redirect()->back()->withErrors('Insufficient funds.');
@@ -70,8 +83,8 @@ class CryptoController extends Controller
         $account->save();
 
         $crypto = new Cryptocurrency([
-            'name' => 'Cryptocurrency',
-            'symbol' => 'CRYPTO',
+            'name' => $selectedCryptocurrency->name,
+            'symbol' => $selectedCryptocurrency->symbol,
             'price_bought' => $rate,
             'amount' => $amount,
             'account_id' => $account->id,

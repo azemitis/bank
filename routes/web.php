@@ -29,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/crypto/index', [CryptoController::class, 'index'])->name('crypto.index');
     Route::get('/crypto/create', [CryptoController::class, 'create'])->name('crypto.create');
-    Route::get('/crypto/store', [CryptoController::class, 'store'])->name('crypto.store');
+    Route::post('/crypto/store', [CryptoController::class, 'store'])->name('crypto.store');
 });
 
 require __DIR__.'/auth.php';
