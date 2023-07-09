@@ -30,6 +30,15 @@
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
+                        <div class="mb-4">
+                            <label for="cost" class="block text-gray-700 text-sm font-bold mb-2">Cost:</label>
+                            <input type="text" name="cost" id="cost" value="{{ old('cost', '0') }}"
+                                   class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
+                                    focus:shadow-outline @error('cost') border-red-500 @enderror">
+                            @error('cost')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <div class="mb-4 flex items-center justify-between">
                             <label for="cryptocurrency_id" class="block text-gray-700 text-sm font-bold">Price:</label>
                             <div class="flex">
@@ -41,22 +50,10 @@
                                 Cryptocurrency:</label>
                             <div class="flex">
                                 <span class="text-gray-700">{{ $selectedCurrencyName }}</span>
+                                <input type="hidden" name="cryptocurrency_name" value="{{ $selectedCurrencyName }}">
                             </div>
                         </div>
-                        <div class="mb-4 flex items-center justify-between">
-                            <label for="cost" class="block text-gray-700 text-sm font-bold">{{ __('Cost:') }}</label>
-                            <div class="flex">
-                                <div class="flex justify-end">
-                                    <span id="cost" class="text-2xl">{{ old('cost', '0') }}</span>
-                                </div>
-                                @error('cost')
-                                <p class="text-red-500 text-xs italic ml-2">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between mt-4">
-                            <button type="button" id="calculateBtn" class="bg-indigo-500 hover:bg-indigo-600 text-white
-                            font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Calculate</button>
+                        <div class="flex items-center justify-end mt-4">
                             <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2
                             px-4 rounded focus:outline-none focus:shadow-outline">Buy Cryptocurrency</button>
                         </div>
@@ -65,18 +62,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const rateInput = document.getElementById('rate');
-        const amountInput = document.getElementById('amount');
-        const costInput = document.getElementById('cost');
-        const calculateBtn = document.getElementById('calculateBtn');
-
-        calculateBtn.addEventListener('click', () => {
-            const rate = parseFloat(rateInput.textContent);
-            const amount = parseFloat(amountInput.value);
-            const cost = rate * amount;
-            costInput.textContent = isNaN(cost) ? '0' : cost.toFixed(8);
-        });
-    </script>
 </x-app-layout>

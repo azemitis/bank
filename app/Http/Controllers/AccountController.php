@@ -18,7 +18,7 @@ class AccountController extends Controller
         $user = auth()->user();
 
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|digits_between:1,12',
+            'amount' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {

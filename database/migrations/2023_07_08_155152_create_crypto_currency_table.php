@@ -11,7 +11,6 @@ class CreateCryptoCurrencyTable extends Migration
         Schema::create('crypto_currencies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('symbol');
             $table->decimal('price_bought', 10, 8);
             $table->decimal('amount', 10, 8);
             $table->foreignId('account_id')->constrained('accounts');

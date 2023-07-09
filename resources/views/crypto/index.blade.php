@@ -13,7 +13,31 @@
                     <p>Market data, price charts, and trends of main cryptocurrencies.
                         Buy or sell your cryptocurrencies.</p>
 
-                    <!-- Display table -->
+                    <!-- Owned cryptocurrencies table -->
+                    <table class="w-full bg-white rounded-lg overflow-hidden shadow-lg mt-6">
+                        <thead class="bg-indigo-200">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Name</th>
+                            <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Price Bought</th>
+                            <th class="px-4 py-2 text-left text-gray-800 font-semibold border">Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse ($ownedCryptocurrencies as $ownedCrypto)
+                            <tr class="border-b border-gray-300">
+                                <td class="px-4 py-2 border">{{ $ownedCrypto->name }}</td>
+                                <td class="px-4 py-2 border">{{ $ownedCrypto->price_bought }}</td>
+                                <td class="px-4 py-2 border">{{ $ownedCrypto->amount }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-4 py-2">No cryptocurrencies bought.</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+
+                    <!-- Display all cyrrencies  table -->
                     <table class="w-full bg-white rounded-lg overflow-hidden shadow-lg mt-6">
                         <thead class="bg-indigo-200">
                         <tr>
