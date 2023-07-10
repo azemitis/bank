@@ -39,7 +39,7 @@ class TransactionController extends Controller
         $amount = $request->input('amount');
         $currencyConverter = new CurrencyService();
         $convertedAmount = $currencyConverter->convert($senderAccount->currency, $recipientAccount->currency, $amount);
-        $currencyRate = $currencyConverter->getConversionRate($senderAccount->currency, $recipientAccount->currency);
+        $currencyRate = $currencyConverter->getConversionRate($senderAccount->currency, $recipientAccount->currency) ?? 1;
 
         $validator->after(function ($validator) use ($senderAccount, $amount, $convertedAmount) {
             if ($senderAccount->balance < $amount) {

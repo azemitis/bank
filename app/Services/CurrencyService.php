@@ -15,8 +15,12 @@ class CurrencyService
 
     public function convert(string $originalCurrency, string $recipientCurrency, ?float $amount)
     {
-        if (isset($this->conversionRates[$originalCurrency])
-            && isset($this->conversionRates[$originalCurrency][$recipientCurrency])) {
+        if ($originalCurrency === $recipientCurrency) {
+            return $amount;
+        }
+
+        if (isset($this->conversionRates[$originalCurrency]) &&
+            isset($this->conversionRates[$originalCurrency][$recipientCurrency])) {
             $conversionRate = $this->conversionRates[$originalCurrency][$recipientCurrency];
             return $amount * $conversionRate;
         }
