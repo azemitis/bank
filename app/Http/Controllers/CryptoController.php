@@ -46,21 +46,28 @@ class CryptoController extends Controller
             ->input('selected_currency_rate') ?? ($selectedCryptocurrency ? $selectedCryptocurrency
             ->quote['USD']['price'] : '');
 
+        $errorMessages = $request->session()
+            ->get('errors') ? $request->session()
+            ->get('errors')
+            ->getBag('default')
+            ->getMessages() : [];
+
         return view('crypto.create', compact(
             'accounts',
             'selectedCryptocurrency',
             'cryptocurrencies',
             'selectedCurrencyName',
-            'selectedCurrencyRate'
-        ))
-            ->withErrors($request->session()->get('errors'));
+            'selectedCurrencyRate',
+            'errorMessages'
+        ));
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric',
-        ]);
+            'amount' => 'required|numeric|gt:0',
+            'cost' => 'required|numeric|gt:0',
+            ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

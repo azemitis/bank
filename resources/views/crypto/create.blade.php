@@ -10,11 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200 w-136">
                     <!-- Error messages -->
-                    @if ($errors->any())
+                    @if (!empty($errorMessages))
                         <div id="flash-error-message" class="flash-message flash-error mt-2">
                             <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{!! $error !!}</li>
+                                @foreach ($errorMessages as $error)
+                                    <li>{{ $error[0] }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -38,10 +38,8 @@
                             <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
                             <input type="text" name="amount" id="amount" value="{{ old('amount', '0') }}"
                                    class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
-                            focus:shadow-outline @error('amount') border-red-500 @enderror">
-                            @error('amount')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
+                                    focus:shadow-outline
+                                    @error('amount') border-red-500 @enderror">
                         </div>
                         <div class="flex items-center justify-between">
                             <label for="cryptocurrency_id" class="block text-gray-700 text-sm font-bold">Price:</label>
@@ -57,10 +55,7 @@
                             <label for="cost" class="block text-gray-700 text-sm font-bold">Cost:</label>
                             <input type="text" name="cost" id="cost" value="{{ old('cost', '0') }}" readonly
                                    class="py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline
-                            bg-transparent border-none text-xl text-right">
-                            @error('cost')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
+                                        bg-transparent border-none text-xl text-right">
                         </div>
                         <div class="flex items-center">
                             <button type="button" id="calculate"
@@ -79,7 +74,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
         function showFlashMessage(elementId) {

@@ -17,26 +17,30 @@ class AccountController extends Controller
     {
         $user = auth()->user();
 
-        $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'amount' => 'required|numeric',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $fixedString = 'LV33TREL';
+            $randomDigits = mt_rand(1000000000, 9999999999);
+
+            $account = new Account([
+                'account_number' => $fixedString . $randomDigits,
+                'balance' => $request->input('amount', 0),
+                'currency' => $request->input('currency', 'EUR')
+            ]);
+
+            $user->accounts()->save($account);
+
+            return redirect()->route('dashboard')->with('success', 'New account opened successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Failed to create account.')->withInput();
         }
-
-        $fixedString = 'LV33TREL';
-        $randomDigits = mt_rand(1000000000, 9999999999);
-
-        $account = new Account([
-            'account_number' => $fixedString . $randomDigits,
-            'balance' => $request->input('amount', 0),
-            'currency' => $request->input('currency', 'EUR')
-        ]);
-
-        $user->accounts()->save($account);
-
-        return redirect()->route('dashboard')->with('success', 'New account opened successfully.');
     }
 
     public function destroy(Account $account)
