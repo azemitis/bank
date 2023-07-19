@@ -1,13 +1,16 @@
 # Bank application
 
-![Img](img.jpg)
+![Img](land.jpg)
+![Img](main.jpg)
+![Img](transactions.jpg)
+![Img](cryptolist.jpg)
 ![Img](crypto.jpg)
 
 Bank is a Laravel 8 and PHP 7.3 application.
 
 ### Installation
 
-To install Bank appllication, follow these steps.
+To install Bank application, follow these steps.
 
 1. Clone the repository to your local machine using the following command:
 
