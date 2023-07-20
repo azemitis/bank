@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Auth\TwoFactorRegistrationController;
 use App\Http\Controllers\CryptoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepositController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/crypto/create', [CryptoController::class, 'create'])->name('crypto.create');
     Route::post('/crypto', [CryptoController::class, 'store'])->name('crypto.store');
     Route::delete('/crypto/{cryptocurrency}', [CryptoController::class, 'destroy'])->name('crypto.destroy');
+
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/register', [TwoFactorRegistrationController::class, 'create'])->name('register');
+Route::post('/register', [TwoFactorRegistrationController::class, 'store']);

@@ -17,6 +17,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google2fa_secret',
     ];
 
     protected $hidden = [
@@ -37,4 +38,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Account::class);
     }
+
+//    public function hasTwoFactorAuthenticationEnabled(): bool
+//    {
+//        return !empty($this->google2fa_secret);
+//    }
 }

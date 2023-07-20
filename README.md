@@ -49,3 +49,7 @@ To install Bank application, follow these steps.
 
 
     php artisan serve
+
+
+## Additional remarks
+Cryptocurrency page requires https://coinmarketcap.com/ API key as variable "CMC_API_KEY" in .env file.

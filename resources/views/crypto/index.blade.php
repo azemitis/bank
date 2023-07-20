@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-20">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-indigo-100 border-b border-gray-200">
@@ -58,8 +58,6 @@
                                         </button>
                                     </form>
                                 </td>
-
-
                             </tr>
                         @empty
                             <tr>
@@ -82,6 +80,13 @@
                         </tr>
                         </thead>
                         <tbody>
+
+                        <!-- Display error message if no API key is added -->
+                        @if(empty($cryptocurrencies))
+                            <div class="mt-4 p-4 bg-red-200 border border-red-400 text-red-700 rounded">
+                                Cryptocurrency data is not available. Please provide a valid API key.
+                            </div>
+                        @endif
                         @foreach ($cryptocurrencies as $cryptocurrency)
                             <tr class="border-b border-gray-300">
                                 <td class="px-4 py-2 border">{{ $cryptocurrency['name'] }}</td>
@@ -110,7 +115,6 @@
                                                value="{{ $cryptocurrency['quote']['USD']['price'] }}">
                                     </form>
                                 </td>
-
                             </tr>
                         @endforeach
                         </tbody>

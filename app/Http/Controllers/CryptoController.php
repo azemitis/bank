@@ -13,23 +13,36 @@ class CryptoController extends Controller
     public function index()
     {
         $apiKey = env('CMC_API_KEY');
-        $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
 
-        try {
-            $response = Http::withHeaders([
-                'X-CMC_PRO_API_KEY' => $apiKey,
-            ])->get($url);
+        // Check if the crypto API key is added
+        if (!$apiKey) {
+            $cryptocurrencies = [];
+            $ownedCryptocurrencies = [];
+        } else {
+            $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
 
-            $data = $response->json();
-            $cryptocurrencies = $data['data'];
-            $ownedCryptocurrencies = CryptoCurrency::whereHas('account', function ($query) {
-                $query->where('user_id', auth()->user()->id);
-            })->get();
+            try {
+                $response = Http::withHeaders([
+                    'X-CMC_PRO_API_KEY' => $apiKey,
+                ])->get($url);
 
-            return view('crypto.index', compact('cryptocurrencies', 'ownedCryptocurrencies'));
-        } catch (\Exception $e) {
-            return back()->withErrors('Failed to fetch cryptocurrency data.');
+                $data = $response->json();
+                $cryptocurrencies = $data['data'];
+                $ownedCryptocurrencies = CryptoCurrency::whereHas('account', function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                })->get();
+            } catch (\Exception $e) {
+                // If there is an exception, return an empty array for cryptocurrencies
+                $cryptocurrencies = [];
+                $ownedCryptocurrencies = [];
+            }
         }
+
+        if (empty($ownedCryptocurrencies)) {
+            $ownedCryptocurrencies = [];
+        }
+
+        return view('crypto.index', compact('cryptocurrencies', 'ownedCryptocurrencies'));
     }
 
     public function create(Request $request)

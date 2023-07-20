@@ -2,7 +2,7 @@
     <!-- Header -->
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight ml-2">
-            {{ __('Welcome to the bank!') }}
+            {{ __('Welcome to the bank! ') }}
         </h2>
     </x-slot>
 
