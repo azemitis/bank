@@ -53,3 +53,5 @@ To install Bank application, follow these steps.
 
 ## Additional remarks
 Cryptocurrency page requires https://coinmarketcap.com/ API key as variable "CMC_API_KEY" in .env file.
+
+Google Authenticator application with a 30-second code expiration time is used for approval of transactions inside the application.

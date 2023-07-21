@@ -8,7 +8,6 @@ use App\Services\CurrencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Crypt;
 use PragmaRX\Google2FA\Google2FA;
 
 class TransactionController extends Controller
@@ -40,6 +39,7 @@ class TransactionController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'numeric',
+            '2fa_code' => 'required',
         ]);
 
         $senderAccount = Account::findOrFail($request->input('sender_account'));
@@ -62,7 +62,7 @@ class TransactionController extends Controller
         }
 
         $userSecurityCode = $request->input('2fa_code');
-        $is2FAVerified = $this->isDummy2FAValid($userSecurityCode);
+        $is2FAVerified = $this->verify2FACode($userSecurityCode);
 
         if (!$is2FAVerified) {
             return redirect()->back()->withErrors(['2fa_code' => 'Invalid 2FA code.']);
@@ -86,10 +86,6 @@ class TransactionController extends Controller
         return redirect()->route('dashboard')->with('success', 'Transaction confirmed.');
     }
 
-    public function isDummy2FAValid($securityCode)
-    {
-        return $securityCode === '123';
-    }
     public function showConfirmationView()
     {
         $transactionData = session('transaction');
