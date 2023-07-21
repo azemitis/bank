@@ -148,7 +148,7 @@
                                             </div>
                                             <!-- 2FA security code input field -->
                                             <label for="2fa_code" class="block text-gray-700 text-sm font-bold mb-2">
-                                                2FA Security Code:</label>
+                                            </label>
                                             <input type="text" name="2fa_code" value="" id="2fa_code"
                                                    class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
                                                    focus:outline-none text-center focus:shadow-outline hidden">
@@ -245,24 +245,6 @@
         </div>
     </div>
 
-    <!-- Transfer confirmation modal -->
-    <div id="transfer-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
-        <div class="bg-sky-900 w-1/3 rounded-lg shadow-lg p-8">
-            <p class="text-white text-lg mb-4">Please enter the Google security code to approve the transaction.</p>
-            <label for="transfer_security_code" class="block text-white text-sm font-bold mb-2">Code:</label>
-            <input type="text" name="transfer_security_code" value="" id="transfer_security_code"
-                   class="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
-                      text-center focus:shadow-outline">
-            <div class="flex justify-end mt-4">
-                <button type="button" class="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg mr-2"
-                        onclick="confirmTransfer()">Approve</button>
-                <button type="button"
-                        class="bg-indigo-100 hover:bg-red-600 text-gray-800 hover:text-white px-4 py-2 rounded-lg"
-                        onclick="cancelTransfer()">Cancel</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         function showFlashMessage(elementId) {
             const flashMessage = document.getElementById(elementId);
@@ -308,41 +290,6 @@
             const modal = document.getElementById('delete-modal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-        }
-
-        <!-- Handle the click event of the "Transfer" button -->
-        document.getElementById('showConfirmationButton').addEventListener('click', function (event) {
-            event.preventDefault();
-            showTransferModal();
-        });
-
-        function showTransferModal() {
-            const modal = document.getElementById('transfer-modal');
-            modal.classList.add('flex');
-            modal.classList.remove('hidden');
-        }
-
-        function closeTransferModal() {
-            const modal = document.getElementById('transfer-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function confirmTransfer() {
-            const securityCode = document.getElementById('transfer_security_code').value;
-            if (securityCode.trim() === '') {
-                alert('Please enter your security code.');
-                return;
-            }
-
-            document.getElementById('2fa_code').value = securityCode;
-            document.getElementById('showConfirmationButton').closest('form').submit();
-
-            closeTransferModal();
-        }
-
-        function cancelTransfer() {
-            closeTransferModal();
         }
     </script>
 
