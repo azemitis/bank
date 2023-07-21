@@ -63,12 +63,19 @@
                                     rounded focus:outline-none focus:shadow-outline">
                                 Calculate
                             </button>
-                            <button type="submit"
+                            <button type="button" id="showConfirmationButton"
                                     class="ml-4 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4
-                                    rounded focus:outline-none focus:shadow-outline">
+                                    rounded focus:outline-none focus:shadow-outline"
+                                    >
                                 Buy Cryptocurrency
                             </button>
                         </div>
+                        <!-- 2FA security code input field -->
+                        <label for="2fa_code" class="block text-gray-700 text-sm font-bold mb-2">
+                        </label>
+                        <input type="text" name="2fa_code" value="" id="2fa_code"
+                               class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
+                               focus:outline-none text-center focus:shadow-outline hidden">
                     </form>
                 </div>
             </div>

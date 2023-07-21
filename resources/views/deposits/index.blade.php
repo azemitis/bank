@@ -196,12 +196,18 @@
                                             </td>
 
                                             <td class="border border-gray-300 px-4 py-2">
-                                                <button type="submit"
+                                                <button type="submit" id="showConfirmationButton"
                                                         class="bg-indigo-500 text-sm hover:bg-indigo-600 text-white
                                                         font-bold py-2 rounded focus:outline-none focus:shadow-outline w-32">
                                                     Open Deposit Account
                                                 </button>
                                             </td>
+                                            <!-- 2FA security code input field -->
+                                            <label for="2fa_code" class="block text-gray-700 text-sm font-bold mb-2">
+                                            </label>
+                                            <input type="text" name="2fa_code" value="" id="2fa_code"
+                                                   class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
+                                                   focus:outline-none text-center focus:shadow-outline hidden">
                                         </tr>
                                         </tbody>
                                     </table>
@@ -234,8 +240,8 @@
 
     <!-- Account withdraw conformation modal -->
     <div id="delete-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
-        <div class="bg-white w-1/3 rounded-lg shadow-lg p-8">
-            <p class="text-gray-800 text-lg mb-4">Are you sure you want to withdraw from money from this account?</p>
+        <div class="bg-sky-900 w-1/3 rounded-lg shadow-lg p-8">
+            <p class="text-white text-lg mb-4">Are you sure you want to withdraw from money from this account?</p>
             <div class="flex justify-end">
                 <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg mr-2"
                         onclick="deleteAccount()">Close account

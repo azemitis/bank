@@ -86,6 +86,12 @@ class CryptoController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        // Validate the 2FA code
+        $verificationController = new VerificationController();
+        if (!$verificationController->verify2FACode($request)) {
+            return redirect()->back()->withErrors(['2fa_code' => 'Please enter your 2FA code to continue.'])->withInput();
+        }
+
         $account = Account::findOrFail($request->input('account_id'));
         $cost = $request->input('cost');
 
