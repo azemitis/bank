@@ -202,15 +202,16 @@
                                                     Open Deposit Account
                                                 </button>
                                             </td>
-                                            <!-- 2FA security code input field -->
-                                            <label for="2fa_code" class="block text-gray-700 text-sm font-bold mb-2">
-                                            </label>
-                                            <input type="text" name="2fa_code" value="" id="2fa_code"
-                                                   class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
-                                                   focus:outline-none text-center focus:shadow-outline hidden">
+
                                         </tr>
                                         </tbody>
                                     </table>
+                                    <!-- 2FA security code input field -->
+                                    <label for="2fa_code" class="block text-gray-700 text-sm font-bold mb-2">
+                                    </label>
+                                    <input type="text" name="2fa_code" value="" id="2fa_code"
+                                           class="border rounded w-full py-2 px-3 text-gray-700 leading-tight
+                                                   focus:outline-none text-center focus:shadow-outline hidden">
                                 </div>
                             </form>
                         </div>
