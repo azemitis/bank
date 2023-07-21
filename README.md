@@ -1,7 +1,9 @@
 # Bank application
 
 ![Img](land.jpg)
+![Img](login.jpg)
 ![Img](main.jpg)
+![Img](2fa.jpg)
 ![Img](transactions.jpg)
 ![Img](cryptolist.jpg)
 ![Img](crypto.jpg)
