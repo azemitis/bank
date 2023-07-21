@@ -100,56 +100,60 @@
                                     </div>
 
                                 <!-- Make Money Transaction section -->
-                                    <div class="mt-8">
-                                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Transfer Money</h4>
-                                        <div class="bg-white rounded-lg overflow-hidden shadow-sm">
-                                            <form action="{{ route('transactions.store') }}" method="POST"
-                                                  class="grid grid-cols-4 gap-4 px-6 py-2">
-                                                @csrf
-                                                <div class="col-span-1">
-                                                    <label for="sender_account"
-                                                           class="block text-gray-700 text-sm font-bold mb-2">
-                                                        Sender's Account:</label>
-                                                    <select name="sender_account" id="sender_account"
-                                                            class="border rounded w-full py-2 px-3 text-gray-700
+                                <div class="mt-8">
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-4">Transfer Money</h4>
+                                    <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+                                        <form action="{{ route('transactions.store') }}" method="POST"
+                                              class="grid grid-cols-4 gap-4 px-6 py-2">
+                                            @csrf
+                                            <div class="col-span-1">
+                                                <label for="sender_account"
+                                                       class="block text-gray-700 text-sm font-bold mb-2">
+                                                    Sender's Account:</label>
+                                                <select name="sender_account" id="sender_account"
+                                                        class="border rounded w-full py-2 px-3 text-gray-700
                                                             leading-tight focus:outline-none focus:shadow-outline">
-                                                        @foreach ($accounts as $account)
-                                                            <option
-                                                                value="{{ $account->id }}">
-                                                                {{ $account->account_number }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-1">
-                                                    <label for="recipient_account"
-                                                           class="block text-gray-700 text-sm font-bold mb-2">
-                                                        Recipient's Account:</label>
-                                                    <select name="recipient_account" id="recipient_account"
-                                                            class="border rounded w-full py-2 px-3 text-gray-700
-                                                            leading-tight focus:outline-none focus:shadow-outline">
-                                                        @foreach ($accounts as $account)
-                                                            <option
-                                                                value="{{ $account->id }}">{{ $account->account_number }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="col-span-1">
-                                                    <label for="amount"
-                                                           class="block text-gray-700 text-sm font-bold mb-2">
-                                                        Amount:</label>
-                                                    <input type="text" name="amount" id="amount" value="0"
-                                                           class="border rounded w-full py-2 px-3 text-gray-700
-                                                           leading-tight focus:outline-none text-center focus:shadow-outline">
-                                                </div>
-                                                <div class="col-span-1 flex items-end justify-center">
-                                                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-600
-                                                    text-white font-semibold py-2 px-4 rounded-xl">Transfer
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                                    @foreach ($accounts as $account)
+                                                        <option value="{{ $account->id }}">{{ $account->account_number }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-span-1">
+                                                <label for="recipient_account"
+                                                       class="block text-gray-700 text-sm font-bold mb-2">
+                                                    Recipient's Account:</label>
+                                                <select name="recipient_account" id="recipient_account"
+                                                        class="border rounded w-full py-2 px-3 text-gray-700
+                                                    leading-tight focus:outline-none focus:shadow-outline">
+                                                    @foreach ($accounts as $account)
+                                                        <option value="{{ $account->id }}">{{ $account->account_number }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-span-1">
+                                                <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">
+                                                    Amount:</label>
+                                                <input type="text" name="amount" id="amount" value="0"
+                                                       class="border rounded w-full py-2 px-3 text-gray-700
+                                                    leading-tight focus:outline-none text-center focus:shadow-outline">
+                                            </div>
+                                            <div class="col-span-1 flex items-end justify-center">
+                                                <button type="button" id="showConfirmationButton"
+                                                        class="bg-indigo-500 hover:bg-indigo-600 text-white
+                                                        font-semibold py-2 px-4 rounded-xl">
+                                                    Transfer
+                                                </button>
+                                            </div>
+                                            <!-- Add 2FA security code input field -->
+                                            <input type="text" name="2fa_code" value="" id="2fa_code"
+                                                   class="col-span-4 mt-4 border rounded w-full py-2 px-3 text-gray-700
+                                                   leading-tight focus:outline-none text-center focus:shadow-outline
+                                                   hidden">
+                                        </form>
                                     </div>
+                                </div>
 
                                     <!-- FLash messages -->
                                     @if(session('success'))
@@ -286,6 +290,17 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
+
+        // Function to handle the click event of the "Transfer" button
+        document.getElementById('showConfirmationButton').addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const securityCode = prompt('Please enter your security code:');
+            if (securityCode !== null && securityCode.trim() !== '') {
+                document.getElementById('2fa_code').value = securityCode;
+                event.target.closest('form').submit();
+            }
+        });
     </script>
 
 </x-app-layout>

@@ -39,8 +39,8 @@ class User extends Authenticatable
         return $this->hasMany(Account::class);
     }
 
-//    public function hasTwoFactorAuthenticationEnabled(): bool
-//    {
-//        return !empty($this->google2fa_secret);
-//    }
+    public function hasTwoFactorAuthenticationEnabled(): bool
+    {
+        return !empty($this->google2fa_secret);
+    }
 }

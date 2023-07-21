@@ -35,7 +35,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/crypto/{cryptocurrency}', [CryptoController::class, 'destroy'])->name('crypto.destroy');
 
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-});
+
+    Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::get('/transactions/confirmation', [TransactionController::class, 'showConfirmationView'])
+        ->name('transaction.confirmation');
+    Route::post('/transactions/confirm', [TransactionController::class, 'confirmTransaction'])
+        ->name('transaction.confirm');});
 
 require __DIR__.'/auth.php';
 

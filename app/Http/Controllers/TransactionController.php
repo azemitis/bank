@@ -8,12 +8,20 @@ use App\Services\CurrencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
+use PragmaRX\Google2FA\Google2FA;
 
 class TransactionController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
+
+        if (!$user->google2fa_secret) {
+            return redirect()->route('two-factor.enable');
+        }
+
+        $accounts = Account::where('user_id', $user->id)->get();
         $transactions = Transaction::where(function ($query) use ($user) {
             $query->whereHas('senderAccount', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -25,7 +33,7 @@ class TransactionController extends Controller
             ->withTrashed()
             ->get();
 
-        return view('transactions', compact('transactions'));
+        return view('transactions', compact('user', 'accounts', 'transactions'));
     }
 
     public function store(Request $request)
@@ -53,13 +61,14 @@ class TransactionController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $senderAccount->balance -= $amount;
-        $recipientAccount->balance += $convertedAmount;
+        $userSecurityCode = $request->input('2fa_code');
+        $is2FAVerified = $this->isDummy2FAValid($userSecurityCode);
 
-        $senderAccount->save();
-        $recipientAccount->save();
+        if (!$is2FAVerified) {
+            return redirect()->back()->withErrors(['2fa_code' => 'Invalid 2FA code.']);
+        }
 
-        $transaction = new Transaction([
+        $transactionData = [
             'amount' => $amount,
             'converted_amount' => $convertedAmount,
             'currency_rate' => $currencyRate,
@@ -67,9 +76,54 @@ class TransactionController extends Controller
             'sender_account_id' => $senderAccount->id,
             'recipient_account_id' => $recipientAccount->id,
             'user_id' => Auth::id(),
-        ]);
-        $transaction->save();
+            'security_code' => $userSecurityCode,
+        ];
 
-        return redirect()->route('dashboard')->with('success', 'Money transfer successful.');
+        $request->session()->put('transaction', $transactionData);
+
+        Transaction::create($transactionData);
+
+        return redirect()->route('dashboard')->with('success', 'Transaction confirmed.');
+    }
+
+    public function isDummy2FAValid($securityCode)
+    {
+        return $securityCode === '123';
+    }
+    public function showConfirmationView()
+    {
+        $transactionData = session('transaction');
+
+        if (!is_array($transactionData) || !array_key_exists('security_code', $transactionData)) {
+            return redirect()->back()->withErrors(['error' => 'Transaction data not available or incomplete.']);
+        }
+
+        return view('transaction_confirmation', compact('transactionData'));
+    }
+
+    public function confirmTransaction(Request $request)
+    {
+        $userSecurityCode = $request->input('2fa_code');
+        $is2FAVerified = $this->isDummy2FAValid($userSecurityCode);
+
+        if (!$is2FAVerified) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function verify2FACode($securityCode)
+    {
+        $user = auth()->user();
+
+        if (!$user->google2fa_secret) {
+            return false;
+        }
+
+        $google2fa = new Google2FA();
+        $is2FAVerified = $google2fa->verifyKey($user->google2fa_secret, $securityCode);
+
+        return $is2FAVerified;
     }
 }

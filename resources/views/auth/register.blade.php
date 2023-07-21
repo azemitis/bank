@@ -15,13 +15,13 @@
                 <!-- Name -->
                 <div>
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-600">Name</label>
-                    <input id="name" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" type="text" name="name" :value="old('name')" required autofocus>
+                    <input id="name" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" type="text" name="name" value="{{ old('name') }}" required autofocus>
                 </div>
 
                 <!-- Email Address -->
                 <div class="mt-4">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-600">Email</label>
-                    <input id="email" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" type="email" name="email" :value="old('email')" required>
+                    <input id="email" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" type="email" name="email" value="{{ old('email') }}" required>
                 </div>
 
                 <!-- Password -->
