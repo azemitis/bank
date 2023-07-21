@@ -8,7 +8,7 @@ use App\Services\CurrencyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use PragmaRX\Google2FA\Google2FA;
+use PragmaRX\Google2FA\Google2FA; // must stay even if showed as unused
 use App\Models\User;
 
 class TransactionController extends Controller
@@ -71,10 +71,8 @@ class TransactionController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $userSecurityCode = $request->input('2fa_code');
-        $is2FAVerified = $this->verify2FACode($userSecurityCode);
-
-        if (!$is2FAVerified) {
+        $verificationController = new VerificationController();
+        if (!$verificationController->verify2FACode($request)) {
             return redirect()->back()->withErrors(['2fa_code' => 'Invalid 2FA code.']);
         }
 
@@ -86,7 +84,7 @@ class TransactionController extends Controller
             'sender_account_id' => $senderAccount->id,
             'recipient_account_id' => $recipientAccount->id,
             'user_id' => Auth::id(),
-            'security_code' => $userSecurityCode,
+            'security_code' => $request->input('2fa_code'),
         ];
 
         $request->session()->put('transaction', $transactionData);
@@ -94,20 +92,5 @@ class TransactionController extends Controller
         Transaction::create($transactionData);
 
         return redirect()->route('dashboard')->with('success', 'Transaction confirmed.');
-    }
-
-
-    public function verify2FACode($securityCode)
-    {
-        $user = auth()->user();
-
-        if (!$user instanceof User || !$user->google2fa_secret) {
-            return false;
-        }
-
-        $google2fa = new Google2FA();
-        $is2FAVerified = $google2fa->verifyKey($user->google2fa_secret, $securityCode);
-
-        return $is2FAVerified;
     }
 }
